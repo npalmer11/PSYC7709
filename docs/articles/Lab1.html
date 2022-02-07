@@ -78,9 +78,833 @@
 
     
     
+<ol style="list-style-type: decimal">
+<li>Download the Lab1_data.xlsx data file. Convert the data to long format:</li>
+</ol>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">psyc7709</span><span class="op">)</span></code></pre></div>
-  </div>
+<code class="sourceCode R"><span class="va">wide_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span> <span class="op">(</span>person <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>,
+                         NoisyMorningA <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">61</span>,<span class="fl">100</span>,<span class="fl">70</span>,<span class="fl">100</span>,<span class="fl">93</span>,<span class="fl">70</span>,<span class="fl">85</span>,<span class="fl">51</span>,<span class="fl">70</span>,<span class="fl">50</span><span class="op">)</span>,
+                         NoisyMorningB <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">77</span>,<span class="fl">68</span>,<span class="fl">56</span>,<span class="fl">84</span>,<span class="fl">62</span>,<span class="fl">72</span>,<span class="fl">86</span>,<span class="fl">78</span>,<span class="fl">85</span>,<span class="fl">81</span><span class="op">)</span>,
+                         NoisyAfternoonA <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">97</span>,<span class="fl">92</span>,<span class="fl">89</span>,<span class="fl">59</span>,<span class="fl">83</span>,<span class="fl">72</span>,<span class="fl">69</span>,<span class="fl">69</span>,<span class="fl">93</span>,<span class="fl">96</span><span class="op">)</span>,
+                         NoisyAfternoonB <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">97</span>,<span class="fl">57</span>,<span class="fl">78</span>,<span class="fl">85</span>,<span class="fl">53</span>,<span class="fl">99</span>,<span class="fl">67</span>,<span class="fl">59</span>,<span class="fl">87</span>,<span class="fl">90</span><span class="op">)</span>,
+                         NoisyEveningA <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">89</span>,<span class="fl">55</span>,<span class="fl">98</span>,<span class="fl">73</span>,<span class="fl">80</span>,<span class="fl">53</span>,<span class="fl">54</span>,<span class="fl">96</span>,<span class="fl">78</span>,<span class="fl">71</span><span class="op">)</span>,
+                         NoisyEveningB <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">94</span>,<span class="fl">85</span>,<span class="fl">73</span>,<span class="fl">74</span>,<span class="fl">78</span>,<span class="fl">70</span>,<span class="fl">90</span>,<span class="fl">90</span>,<span class="fl">64</span>,<span class="fl">83</span><span class="op">)</span>,
+                         QuietMorningA <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">87</span>,<span class="fl">96</span>,<span class="fl">86</span>,<span class="fl">50</span>,<span class="fl">98</span>,<span class="fl">85</span>,<span class="fl">93</span>,<span class="fl">72</span>,<span class="fl">100</span>,<span class="fl">76</span><span class="op">)</span>,
+                         QuietMorningB <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">87</span>,<span class="fl">88</span>,<span class="fl">86</span>,<span class="fl">62</span>,<span class="fl">69</span>,<span class="fl">60</span>,<span class="fl">53</span>,<span class="fl">61</span>,<span class="fl">98</span>,<span class="fl">64</span><span class="op">)</span>,
+                         QuietAfternoonA <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">91</span>,<span class="fl">99</span>,<span class="fl">89</span>,<span class="fl">100</span>,<span class="fl">81</span>,<span class="fl">63</span>,<span class="fl">97</span>,<span class="fl">68</span>,<span class="fl">50</span><span class="op">)</span>,
+                         QuietAfternoonB <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">53</span>,<span class="fl">56</span>,<span class="fl">92</span>,<span class="fl">61</span>,<span class="fl">73</span>,<span class="fl">72</span>,<span class="fl">61</span>,<span class="fl">82</span>,<span class="fl">82</span>,<span class="fl">75</span><span class="op">)</span>,
+                         QuietEveningA <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">79</span>,<span class="fl">90</span>,<span class="fl">67</span>,<span class="fl">85</span>,<span class="fl">69</span>,<span class="fl">65</span>,<span class="fl">74</span>,<span class="fl">57</span>,<span class="fl">55</span>,<span class="fl">56</span><span class="op">)</span>,
+                         QuietEveningB <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">51</span>,<span class="fl">53</span>,<span class="fl">96</span>,<span class="fl">67</span>,<span class="fl">56</span>,<span class="fl">60</span>,<span class="fl">59</span>,<span class="fl">83</span>,<span class="fl">58</span>,<span class="fl">72</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">wide_data</span><span class="op">)</span></code></pre></div>
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="3%">
+<col width="7%">
+<col width="7%">
+<col width="8%">
+<col width="8%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="8%">
+<col width="8%">
+<col width="7%">
+<col width="7%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">person</th>
+<th align="right">NoisyMorningA</th>
+<th align="right">NoisyMorningB</th>
+<th align="right">NoisyAfternoonA</th>
+<th align="right">NoisyAfternoonB</th>
+<th align="right">NoisyEveningA</th>
+<th align="right">NoisyEveningB</th>
+<th align="right">QuietMorningA</th>
+<th align="right">QuietMorningB</th>
+<th align="right">QuietAfternoonA</th>
+<th align="right">QuietAfternoonB</th>
+<th align="right">QuietEveningA</th>
+<th align="right">QuietEveningB</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">61</td>
+<td align="right">77</td>
+<td align="right">97</td>
+<td align="right">97</td>
+<td align="right">89</td>
+<td align="right">94</td>
+<td align="right">87</td>
+<td align="right">87</td>
+<td align="right">65</td>
+<td align="right">53</td>
+<td align="right">79</td>
+<td align="right">51</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">100</td>
+<td align="right">68</td>
+<td align="right">92</td>
+<td align="right">57</td>
+<td align="right">55</td>
+<td align="right">85</td>
+<td align="right">96</td>
+<td align="right">88</td>
+<td align="right">91</td>
+<td align="right">56</td>
+<td align="right">90</td>
+<td align="right">53</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">70</td>
+<td align="right">56</td>
+<td align="right">89</td>
+<td align="right">78</td>
+<td align="right">98</td>
+<td align="right">73</td>
+<td align="right">86</td>
+<td align="right">86</td>
+<td align="right">99</td>
+<td align="right">92</td>
+<td align="right">67</td>
+<td align="right">96</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">100</td>
+<td align="right">84</td>
+<td align="right">59</td>
+<td align="right">85</td>
+<td align="right">73</td>
+<td align="right">74</td>
+<td align="right">50</td>
+<td align="right">62</td>
+<td align="right">89</td>
+<td align="right">61</td>
+<td align="right">85</td>
+<td align="right">67</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">93</td>
+<td align="right">62</td>
+<td align="right">83</td>
+<td align="right">53</td>
+<td align="right">80</td>
+<td align="right">78</td>
+<td align="right">98</td>
+<td align="right">69</td>
+<td align="right">100</td>
+<td align="right">73</td>
+<td align="right">69</td>
+<td align="right">56</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">70</td>
+<td align="right">72</td>
+<td align="right">72</td>
+<td align="right">99</td>
+<td align="right">53</td>
+<td align="right">70</td>
+<td align="right">85</td>
+<td align="right">60</td>
+<td align="right">81</td>
+<td align="right">72</td>
+<td align="right">65</td>
+<td align="right">60</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">85</td>
+<td align="right">86</td>
+<td align="right">69</td>
+<td align="right">67</td>
+<td align="right">54</td>
+<td align="right">90</td>
+<td align="right">93</td>
+<td align="right">53</td>
+<td align="right">63</td>
+<td align="right">61</td>
+<td align="right">74</td>
+<td align="right">59</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">51</td>
+<td align="right">78</td>
+<td align="right">69</td>
+<td align="right">59</td>
+<td align="right">96</td>
+<td align="right">90</td>
+<td align="right">72</td>
+<td align="right">61</td>
+<td align="right">97</td>
+<td align="right">82</td>
+<td align="right">57</td>
+<td align="right">83</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">70</td>
+<td align="right">85</td>
+<td align="right">93</td>
+<td align="right">87</td>
+<td align="right">78</td>
+<td align="right">64</td>
+<td align="right">100</td>
+<td align="right">98</td>
+<td align="right">68</td>
+<td align="right">82</td>
+<td align="right">55</td>
+<td align="right">58</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="right">50</td>
+<td align="right">81</td>
+<td align="right">96</td>
+<td align="right">90</td>
+<td align="right">71</td>
+<td align="right">83</td>
+<td align="right">76</td>
+<td align="right">64</td>
+<td align="right">50</td>
+<td align="right">75</td>
+<td align="right">56</td>
+<td align="right">72</td>
+</tr>
+</tbody>
+</table>
+<p>Long-format</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">long_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>person <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, each<span class="op">=</span><span class="fl">12</span><span class="op">)</span>,
+                        time_of_day <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Noisy Morning A"</span>,<span class="st">"Noisy Morning B"</span>,<span class="st">"Noisy Afternoon A"</span>,<span class="st">"Noisy Afternoon B"</span>, <span class="st">"Noisy Evening A"</span>, <span class="st">"Noisy Evening B"</span>,<span class="st">"Quiet Morning A"</span>,<span class="st">"Quiet Morning B"</span>,<span class="st">"Quiet Afternoon A"</span>,<span class="st">"Quiet Afternoon B"</span>, <span class="st">"Quiet Evening A"</span>, <span class="st">"Quiet Evening B"</span><span class="op">)</span>,<span class="fl">10</span><span class="op">)</span>,
+                        counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">61</span>,<span class="fl">77</span>,<span class="fl">97</span>,<span class="fl">97</span>,<span class="fl">89</span>,<span class="fl">94</span>,<span class="fl">87</span>,<span class="fl">87</span>,<span class="fl">65</span>,<span class="fl">53</span>,<span class="fl">79</span>,<span class="fl">51</span>,
+                                   <span class="fl">100</span>,<span class="fl">68</span>,<span class="fl">92</span>,<span class="fl">57</span>,<span class="fl">55</span>,<span class="fl">85</span>,<span class="fl">96</span>,<span class="fl">88</span>,<span class="fl">91</span>, <span class="fl">56</span>,<span class="fl">90</span>,<span class="fl">53</span>,
+                                   <span class="fl">70</span>,<span class="fl">56</span>,<span class="fl">89</span>,<span class="fl">78</span>,<span class="fl">98</span>,<span class="fl">73</span>,<span class="fl">86</span>,<span class="fl">86</span>,<span class="fl">99</span>,<span class="fl">92</span>,<span class="fl">67</span>,<span class="fl">96</span>,
+                                   <span class="fl">100</span>,<span class="fl">84</span>,<span class="fl">59</span>,<span class="fl">85</span>,<span class="fl">73</span>,<span class="fl">74</span>,<span class="fl">50</span>,<span class="fl">62</span>,<span class="fl">89</span>,<span class="fl">61</span>,<span class="fl">85</span>,<span class="fl">67</span>,
+                                   <span class="fl">93</span>,<span class="fl">62</span>,<span class="fl">83</span>,<span class="fl">53</span>,<span class="fl">80</span>,<span class="fl">78</span>,<span class="fl">98</span>,<span class="fl">69</span>,<span class="fl">100</span>,<span class="fl">73</span>,<span class="fl">69</span>,<span class="fl">56</span>,
+                                   <span class="fl">70</span>,<span class="fl">72</span>,<span class="fl">72</span>,<span class="fl">99</span>,<span class="fl">53</span>,<span class="fl">70</span>,<span class="fl">85</span>,<span class="fl">60</span>,<span class="fl">81</span>,<span class="fl">72</span>,<span class="fl">65</span>,<span class="fl">60</span>,
+                                   <span class="fl">85</span>,<span class="fl">86</span>,<span class="fl">69</span>,<span class="fl">67</span>,<span class="fl">54</span>,<span class="fl">90</span>,<span class="fl">93</span>,<span class="fl">53</span>,<span class="fl">63</span>,<span class="fl">61</span>,<span class="fl">74</span>,<span class="fl">59</span>,
+                                   <span class="fl">51</span>,<span class="fl">78</span>,<span class="fl">69</span>,<span class="fl">59</span>,<span class="fl">96</span>,<span class="fl">90</span>,<span class="fl">72</span>,<span class="fl">61</span>,<span class="fl">97</span>,<span class="fl">82</span>,<span class="fl">57</span>,<span class="fl">83</span>,
+                                   <span class="fl">70</span>,<span class="fl">85</span>,<span class="fl">93</span>,<span class="fl">87</span>,<span class="fl">78</span>,<span class="fl">64</span>,<span class="fl">100</span>,<span class="fl">98</span>,<span class="fl">68</span>,<span class="fl">82</span>,<span class="fl">55</span>,<span class="fl">58</span>,
+                                   <span class="fl">50</span>,<span class="fl">81</span>,<span class="fl">96</span>,<span class="fl">90</span>,<span class="fl">71</span>,<span class="fl">83</span>,<span class="fl">76</span>,<span class="fl">64</span>,<span class="fl">50</span>,<span class="fl">75</span>,<span class="fl">56</span>,<span class="fl">72</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">long_data</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="right">person</th>
+<th align="left">time_of_day</th>
+<th align="right">counts</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Noisy Morning A</td>
+<td align="right">61</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">Noisy Morning B</td>
+<td align="right">77</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Noisy Afternoon A</td>
+<td align="right">97</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">Noisy Afternoon B</td>
+<td align="right">97</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Noisy Evening A</td>
+<td align="right">89</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">Noisy Evening B</td>
+<td align="right">94</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Quiet Morning A</td>
+<td align="right">87</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">Quiet Morning B</td>
+<td align="right">87</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Quiet Afternoon A</td>
+<td align="right">65</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">Quiet Afternoon B</td>
+<td align="right">53</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Quiet Evening A</td>
+<td align="right">79</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">Quiet Evening B</td>
+<td align="right">51</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">Noisy Morning A</td>
+<td align="right">100</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">Noisy Morning B</td>
+<td align="right">68</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">Noisy Afternoon A</td>
+<td align="right">92</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">Noisy Afternoon B</td>
+<td align="right">57</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">Noisy Evening A</td>
+<td align="right">55</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">Noisy Evening B</td>
+<td align="right">85</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">Quiet Morning A</td>
+<td align="right">96</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">Quiet Morning B</td>
+<td align="right">88</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">Quiet Afternoon A</td>
+<td align="right">91</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">Quiet Afternoon B</td>
+<td align="right">56</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">Quiet Evening A</td>
+<td align="right">90</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">Quiet Evening B</td>
+<td align="right">53</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">Noisy Morning A</td>
+<td align="right">70</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="left">Noisy Morning B</td>
+<td align="right">56</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">Noisy Afternoon A</td>
+<td align="right">89</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="left">Noisy Afternoon B</td>
+<td align="right">78</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">Noisy Evening A</td>
+<td align="right">98</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="left">Noisy Evening B</td>
+<td align="right">73</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">Quiet Morning A</td>
+<td align="right">86</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="left">Quiet Morning B</td>
+<td align="right">86</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">Quiet Afternoon A</td>
+<td align="right">99</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="left">Quiet Afternoon B</td>
+<td align="right">92</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">Quiet Evening A</td>
+<td align="right">67</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="left">Quiet Evening B</td>
+<td align="right">96</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="left">Noisy Morning A</td>
+<td align="right">100</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">Noisy Morning B</td>
+<td align="right">84</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="left">Noisy Afternoon A</td>
+<td align="right">59</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">Noisy Afternoon B</td>
+<td align="right">85</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="left">Noisy Evening A</td>
+<td align="right">73</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">Noisy Evening B</td>
+<td align="right">74</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="left">Quiet Morning A</td>
+<td align="right">50</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">Quiet Morning B</td>
+<td align="right">62</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="left">Quiet Afternoon A</td>
+<td align="right">89</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">Quiet Afternoon B</td>
+<td align="right">61</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="left">Quiet Evening A</td>
+<td align="right">85</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">Quiet Evening B</td>
+<td align="right">67</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">Noisy Morning A</td>
+<td align="right">93</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td align="left">Noisy Morning B</td>
+<td align="right">62</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">Noisy Afternoon A</td>
+<td align="right">83</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td align="left">Noisy Afternoon B</td>
+<td align="right">53</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">Noisy Evening A</td>
+<td align="right">80</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td align="left">Noisy Evening B</td>
+<td align="right">78</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">Quiet Morning A</td>
+<td align="right">98</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td align="left">Quiet Morning B</td>
+<td align="right">69</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">Quiet Afternoon A</td>
+<td align="right">100</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td align="left">Quiet Afternoon B</td>
+<td align="right">73</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">Quiet Evening A</td>
+<td align="right">69</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td align="left">Quiet Evening B</td>
+<td align="right">56</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="left">Noisy Morning A</td>
+<td align="right">70</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">Noisy Morning B</td>
+<td align="right">72</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="left">Noisy Afternoon A</td>
+<td align="right">72</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">Noisy Afternoon B</td>
+<td align="right">99</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="left">Noisy Evening A</td>
+<td align="right">53</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">Noisy Evening B</td>
+<td align="right">70</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="left">Quiet Morning A</td>
+<td align="right">85</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">Quiet Morning B</td>
+<td align="right">60</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="left">Quiet Afternoon A</td>
+<td align="right">81</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">Quiet Afternoon B</td>
+<td align="right">72</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="left">Quiet Evening A</td>
+<td align="right">65</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">Quiet Evening B</td>
+<td align="right">60</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="left">Noisy Morning A</td>
+<td align="right">85</td>
+</tr>
+<tr class="even">
+<td align="right">7</td>
+<td align="left">Noisy Morning B</td>
+<td align="right">86</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="left">Noisy Afternoon A</td>
+<td align="right">69</td>
+</tr>
+<tr class="even">
+<td align="right">7</td>
+<td align="left">Noisy Afternoon B</td>
+<td align="right">67</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="left">Noisy Evening A</td>
+<td align="right">54</td>
+</tr>
+<tr class="even">
+<td align="right">7</td>
+<td align="left">Noisy Evening B</td>
+<td align="right">90</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="left">Quiet Morning A</td>
+<td align="right">93</td>
+</tr>
+<tr class="even">
+<td align="right">7</td>
+<td align="left">Quiet Morning B</td>
+<td align="right">53</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="left">Quiet Afternoon A</td>
+<td align="right">63</td>
+</tr>
+<tr class="even">
+<td align="right">7</td>
+<td align="left">Quiet Afternoon B</td>
+<td align="right">61</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="left">Quiet Evening A</td>
+<td align="right">74</td>
+</tr>
+<tr class="even">
+<td align="right">7</td>
+<td align="left">Quiet Evening B</td>
+<td align="right">59</td>
+</tr>
+<tr class="odd">
+<td align="right">8</td>
+<td align="left">Noisy Morning A</td>
+<td align="right">51</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="left">Noisy Morning B</td>
+<td align="right">78</td>
+</tr>
+<tr class="odd">
+<td align="right">8</td>
+<td align="left">Noisy Afternoon A</td>
+<td align="right">69</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="left">Noisy Afternoon B</td>
+<td align="right">59</td>
+</tr>
+<tr class="odd">
+<td align="right">8</td>
+<td align="left">Noisy Evening A</td>
+<td align="right">96</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="left">Noisy Evening B</td>
+<td align="right">90</td>
+</tr>
+<tr class="odd">
+<td align="right">8</td>
+<td align="left">Quiet Morning A</td>
+<td align="right">72</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="left">Quiet Morning B</td>
+<td align="right">61</td>
+</tr>
+<tr class="odd">
+<td align="right">8</td>
+<td align="left">Quiet Afternoon A</td>
+<td align="right">97</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="left">Quiet Afternoon B</td>
+<td align="right">82</td>
+</tr>
+<tr class="odd">
+<td align="right">8</td>
+<td align="left">Quiet Evening A</td>
+<td align="right">57</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="left">Quiet Evening B</td>
+<td align="right">83</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="left">Noisy Morning A</td>
+<td align="right">70</td>
+</tr>
+<tr class="even">
+<td align="right">9</td>
+<td align="left">Noisy Morning B</td>
+<td align="right">85</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="left">Noisy Afternoon A</td>
+<td align="right">93</td>
+</tr>
+<tr class="even">
+<td align="right">9</td>
+<td align="left">Noisy Afternoon B</td>
+<td align="right">87</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="left">Noisy Evening A</td>
+<td align="right">78</td>
+</tr>
+<tr class="even">
+<td align="right">9</td>
+<td align="left">Noisy Evening B</td>
+<td align="right">64</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="left">Quiet Morning A</td>
+<td align="right">100</td>
+</tr>
+<tr class="even">
+<td align="right">9</td>
+<td align="left">Quiet Morning B</td>
+<td align="right">98</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="left">Quiet Afternoon A</td>
+<td align="right">68</td>
+</tr>
+<tr class="even">
+<td align="right">9</td>
+<td align="left">Quiet Afternoon B</td>
+<td align="right">82</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="left">Quiet Evening A</td>
+<td align="right">55</td>
+</tr>
+<tr class="even">
+<td align="right">9</td>
+<td align="left">Quiet Evening B</td>
+<td align="right">58</td>
+</tr>
+<tr class="odd">
+<td align="right">10</td>
+<td align="left">Noisy Morning A</td>
+<td align="right">50</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="left">Noisy Morning B</td>
+<td align="right">81</td>
+</tr>
+<tr class="odd">
+<td align="right">10</td>
+<td align="left">Noisy Afternoon A</td>
+<td align="right">96</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="left">Noisy Afternoon B</td>
+<td align="right">90</td>
+</tr>
+<tr class="odd">
+<td align="right">10</td>
+<td align="left">Noisy Evening A</td>
+<td align="right">71</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="left">Noisy Evening B</td>
+<td align="right">83</td>
+</tr>
+<tr class="odd">
+<td align="right">10</td>
+<td align="left">Quiet Morning A</td>
+<td align="right">76</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="left">Quiet Morning B</td>
+<td align="right">64</td>
+</tr>
+<tr class="odd">
+<td align="right">10</td>
+<td align="left">Quiet Afternoon A</td>
+<td align="right">50</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="left">Quiet Afternoon B</td>
+<td align="right">75</td>
+</tr>
+<tr class="odd">
+<td align="right">10</td>
+<td align="left">Quiet Evening A</td>
+<td align="right">56</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="left">Quiet Evening B</td>
+<td align="right">72</td>
+</tr>
+</tbody>
+</table>
+</div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
