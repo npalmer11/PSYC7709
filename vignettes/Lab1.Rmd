@@ -14,6 +14,48 @@ knitr::opts_chunk$set(
 )
 ```
 
+1. Download the Lab1_data.xlsx data file. Convert the data to long format:
+
+
+```{r}
+wide_data <- data.frame (person = 1:10,
+                         NoisyMorningA = c(61,100,70,100,93,70,85,51,70,50),
+                         NoisyMorningB = c(77,68,56,84,62,72,86,78,85,81),
+                         NoisyAfternoonA = c(97,92,89,59,83,72,69,69,93,96),
+                         NoisyAfternoonB = c(97,57,78,85,53,99,67,59,87,90),
+                         NoisyEveningA = c(89,55,98,73,80,53,54,96,78,71),
+                         NoisyEveningB = c(94,85,73,74,78,70,90,90,64,83),
+                         QuietMorningA = c(87,96,86,50,98,85,93,72,100,76),
+                         QuietMorningB = c(87,88,86,62,69,60,53,61,98,64),
+                         QuietAfternoonA = c(65,91,99,89,100,81,63,97,68,50),
+                         QuietAfternoonB = c(53,56,92,61,73,72,61,82,82,75),
+                         QuietEveningA = c(79,90,67,85,69,65,74,57,55,56),
+                         QuietEveningB = c(51,53,96,67,56,60,59,83,58,72))
+knitr::kable(wide_data)
+
+```
+
+Long-format
+
+```{r}
+long_data <- data.frame(person = rep(1:10, each=12),
+                        time_of_day = rep(c("Noisy Morning A","Noisy Morning B","Noisy Afternoon A","Noisy Afternoon B", "Noisy Evening A", "Noisy Evening B","Quiet Morning A","Quiet Morning B","Quiet Afternoon A","Quiet Afternoon B", "Quiet Evening A", "Quiet Evening B"),10),
+                        counts = c(61,77,97,97,89,94,87,87,65,53,79,51,
+                                   100,68,92,57,55,85,96,88,91,	56,90,53,
+                                   70,56,89,78,98,73,86,86,99,92,67,96,
+                                   100,84,59,85,73,74,50,62,89,61,85,67,
+                                   93,62,83,53,80,78,98,69,100,73,69,56,
+                                   70,72,72,99,53,70,85,60,81,72,65,60,
+                                   85,86,69,67,54,90,93,53,63,61,74,59,
+                                   51,78,69,59,96,90,72,61,97,82,57,83,
+                                   70,85,93,87,78,64,100,98,68,82,55,58,
+                                   50,81,96,90,71,83,76,64,50,75,56,72))
+knitr::kable(long_data)
+                        
+
+```
+
+
 ```{r setup}
-library(psyc7709)
+
 ```
