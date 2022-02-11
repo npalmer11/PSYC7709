@@ -53,7 +53,7 @@ long_data <- data.frame(person = rep(1:10, each=12),
 knitr::kable(long_data)
                         
 
-```
+```  
 
 Another way to convert 
 
