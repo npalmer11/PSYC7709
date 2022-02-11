@@ -55,6 +55,24 @@ knitr::kable(long_data)
 
 ```
 
+Another way to convert 
+
+```{r}
+library(readxl)
+
+widdee_data <- read_xlsx("data/Lab1_data.xlsx")
+
+widdee_data <- widdee_data %>% pivot_longer(
+  cols = 2:13,
+  names_to = c("Loudness", "Time", "Letter"),
+  names_pattern = "(.*)_(.*)_(.*)",
+  values_to = "DV"
+  
+)
+
+knitr::kable(head(widdee_data))
+
+```
 
 ```{r setup}
 
