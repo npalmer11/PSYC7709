@@ -14,6 +14,62 @@ knitr::opts_chunk$set(
 )
 ```
 
+
+1. The following code roughly reproduces figure 5.5 from the textbook (Abdi et al., 2009). Modify the ggplot code so that the graph looks as close as possible to the figure from textbook:
+- change the x-axis title
+- change the y-axis title
+- make the x-axis and y axis ticks the same
+- include different symbols to differentiate the lines
+
+
+```{r}
+
+library(tibble)
+slamecka_design <- tibble(number_of_learning_trials = rep(c(2,4,8),
+                                                          each=6),
+                          number_of_IL = rep(rep(c(2,4,8),2),3),
+                          subjects = 1:18,
+                          recall = c(35,21,6,
+                                     39,31,8,
+                                     40,34,18,
+                                     52,42,26,
+                                     61,58,46,
+                                     73,66,52
+                                     )
+)
+
+slamecka_design$number_of_learning_trials <- as.factor(slamecka_design$number_of_learning_trials)
+
+library(ggplot2)
+ggplot(slamecka_design,aes(x=number_of_IL,
+                           group=number_of_learning_trials,
+                           y=recall,
+                           shape=number_of_learning_trials))+ 
+  geom_line(stat = "summary", fun = "mean")+
+  geom_point(stat = "summary", fun = "mean",)+
+  theme_classic()+
+  xlab("Number of interpolated lists")+
+  ylab("Number of words correct")+
+  scale_y_continuous(breaks=c(20,40,60,80), limits = c(0,80))
+  scale_x_continuous(breaks=c(2,4,8))
+
+
+```
+
+
+
+
+2. The Slamecka design was a 3x3 design. The practice variable had three levels (2, 4, and 8), and was assumed to increase memory recall with increasing amount of practice. The interpolated learning (IL or distraction) variable had three levels (0, 4, and 8), and was assumed to decrease memory recall with increasing amounts of distraction.
+
+```{r}
+
+new_data <- tibble(reward = rep(c("0","50","100000000"), each = 9),
+                      practice = rep(rep(c(2,4,8), each = 3),3)
+                               )
+                                            
+
+
+```
+
 ```{r setup}
-library(psyc7709)
 ```
