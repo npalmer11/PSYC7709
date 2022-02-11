@@ -63,10 +63,35 @@ ggplot(slamecka_design,aes(x=number_of_IL,
 
 ```{r}
 
-new_data <- tibble(reward = rep(c("0","50","100000000"), each = 9),
-                      practice = rep(rep(c(2,4,8), each = 3),3)
+new_data <- tibble(reward = rep(c("A:0","B:50","C:100000000"), each = 9),
+                      practice = rep(rep(c(2,4,8), each = 3),3),
+                   distraction = as.factor(rep(c(0,4,8),9)),
+                   recall = c(5,3,1,
+                              6,4,2,
+                              7,5,3,
+                             10,8,6,
+                              11,9,7,
+                              12,10,8,
+                              15,13,11,
+                              16,14,12,
+                              17,15,13)
                                )
                                             
+library(ggplot2)
+
+ggplot(new_data,aes(x=practice,
+                           group=distraction,
+                           y=recall,
+                           shape=distraction))+ 
+  geom_line()+
+  geom_point()+
+  theme_classic()+
+  xlab("Number of interpolated lists")+
+  ylab("Number of words correct")+
+  scale_y_continuous(breaks=c(0,5,10,15,20), limits = c(0,20))+
+  scale_x_continuous(breaks=c(2,4,8))+
+  facet_wrap(~reward)
+
 
 
 ```
