@@ -1,4 +1,14 @@
 template:
   bootstrap: 5
-  bootswatch: cyborg
-  theme: arrow-dark
+
+
+navbar:
+  structure:
+    left:  [articles, Rbasics, reference, tutorials, news]
+    right: [search, github]
+  components:
+     Rbasics:
+      text: R Basics
+      menu:
+      - text: My r basics page
+        href: articles/Rbasics.html

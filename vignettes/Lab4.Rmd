@@ -1,0 +1,49 @@
+---
+title: "Lab4"
+author: "Natalie Palmer"
+date: "3/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1.Use R to conduct a t.test and ANOVA on this data. Then use R to prove that the results of both analyses are the same. For example, prove that the p-values are the same, and prove that the F-value and T-value are related. (3 points)
+                       
+```{r}
+library(tibble)
+example_data <- tibble(Group = rep(c("A","B"), each = 5),
+                       DV = c(2,4,3,5,4,7,6,5,6,7))
+
+t_test <- t.test(DV~Group, var.equal=TRUE, data = example_data)
+my_aov <- summary(aov(DV~Group, data = example_data))
+
+t_test$p.value
+my_aov[[1]]$`Pr(>F)`[1]
+
+round(t_test$p.value, digits=5) == round(my_aov[[1]]$`Pr(>F)`[1],digits=5)
+
+t_test$statistic
+my_aov[[1]]$`F value`[1]
+
+t_test$statistic^2 == my_aov[[1]]$`F value`[1]
+
+t_test$statistic^2
+my_aov[[1]]$`F value`[1]
+
+round(t_test$statistic^2, digits = 1) == round(my_aov[[1]]$`F value`[1], digits = 1)
+
+
+```
+
+2. Look at the lab on ANOVA that I wrote for our undergraduate statistics OER lab manual https://crumplab.github.io/statisticsLab/lab-8-one-way-anova.html. That lab shows an example of obtaining data from a published paper in psych science where a one-factor ANOVA was used as a part of the analysis. Load the data, conduct the ANOVA, report a ggplot of the means, and use papaja to help you write a short results section reporting the ANOVA result. (3 points).      
+
+```{r}
+
+library(data.table)
+library(readr)
+
+Jamesetal2015Experiment2 <- read_csv("data/Jamesetal2015Experiment2.csv")
+View(Jamesetal2015Experiment2)
+```
