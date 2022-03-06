@@ -46,4 +46,35 @@ library(readr)
 
 Jamesetal2015Experiment2 <- read_csv("data/Jamesetal2015Experiment2.csv")
 View(Jamesetal2015Experiment2)
+
+all_data <- fread("data/Jamesetal2015Experiment2.csv")
+
+
+# re-labeling
+all_data$Condition <- as.factor(all_data$Condition)
+levels(all_data$Condition) <- c("Control",
+                                "Reactivation+Tetris", 
+                                "Tetris_only",
+                                "Reactivation_only") 
+
+library(ggplot2)
+ggplot(all_data, aes(x=Condition, y=Days_One_to_Seven_Number_of_Intrusions))+
+  geom_bar(stat="summary", fun= "mean", position = "dodge")+
+  geom_point()
+
+
+my_aov <- aov(Days_One_to_Seven_Number_of_Intrusions~Condition, data = all_data)
+
+summary(my_aov)
+
+library(papaja)
+apa_print(my_aov)$full_results$Condition
+
+
 ```
+
+A one-factor between-subjects ANOVA was used to examine the average for intrusive memories for the week from participants in each condition. The independent variables consisted of the intervention type of (no-task control, reactivation plus tetris, reactivation alone, and tetris alone). From the ANOVA performed, we found a main effect of Intervention type, F(3, 68) = 3.79, MSE = 10.09, p = 0.014.  
+
+`r apa_print(my_aov)$full_results$Condition` (unsure why this is coming up as "NULL" :/ 
+
+
