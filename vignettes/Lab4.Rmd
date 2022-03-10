@@ -16,6 +16,7 @@ library(tibble)
 example_data <- tibble(Group = rep(c("A","B"), each = 5),
                        DV = c(2,4,3,5,4,7,6,5,6,7))
 
+
 t_test <- t.test(DV~Group, var.equal=TRUE, data = example_data)
 my_aov <- summary(aov(DV~Group, data = example_data))
 
@@ -68,13 +69,10 @@ my_aov <- aov(Days_One_to_Seven_Number_of_Intrusions~Condition, data = all_data)
 summary(my_aov)
 
 library(papaja)
-apa_print(my_aov)$full_results$Condition
+apa_print(my_aov)$full_result$Condition
 
 
 ```
 
-A one-factor between-subjects ANOVA was used to examine the average for intrusive memories for the week from participants in each condition. The independent variables consisted of the intervention type of (no-task control, reactivation plus tetris, reactivation alone, and tetris alone). From the ANOVA performed, we found a main effect of Intervention type, F(3, 68) = 3.79, MSE = 10.09, p = 0.014.  
-
-`r apa_print(my_aov)$full_results$Condition` (unsure why this is coming up as "NULL" :/ 
-
-
+A one-factor between-subjects ANOVA was used to examine the average for intrusive memories for the week from participants in each condition. The independent variables consisted of the intervention type of (no-task control, reactivation plus tetris, reactivation alone, and tetris alone). From the ANOVA performed, we found a main effect of Intervention type, `r 
+apa_print(my_aov)$full_result$Condition`.
