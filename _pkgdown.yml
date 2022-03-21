@@ -1,6 +1,5 @@
 template:
   bootstrap: 5
-  bootswatch: materia
 
 
 
@@ -12,5 +11,5 @@ navbar:
    Rbasics:
     text: Rbasics
     menu:
-    text: Rbasics
-    href: articles/Rbasics.html
+    - text: Rbasics
+    - href: articles/Rbasics.html
