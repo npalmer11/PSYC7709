@@ -5,7 +5,7 @@ template:
 
 navbar:
   structure:
-    left: [articles, Rbasics, reference, tutorials, news]
+    left: [articles, Rbasics, slides, reference, tutorials, news]
     right: [search, github]
   components:
    Rbasics:
@@ -13,3 +13,8 @@ navbar:
     menu:
     - text: Rbasics
     - href: articles/Rbasics.html
+       slides:
+    text: Slides
+    menu:
+    - text: Rbasics
+    - href: slides/myslidess.html
