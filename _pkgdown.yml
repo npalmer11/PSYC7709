@@ -13,8 +13,8 @@ navbar:
     menu:
     - text: Rbasics
     - href: articles/Rbasics.html
-       slides:
-    text: Slides
-    menu:
-    - text: Rbasics
+   slides:
+     text: slides
+     menu:
+    - text: slides
     - href: slides/myslidess.html

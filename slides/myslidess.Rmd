@@ -40,7 +40,7 @@ plot(pressure)
 
 
 ```{r}
-
+library(pkgdown)
 knitr::include_graphics('imgs/0000.png')
 
 ```
