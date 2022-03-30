@@ -31,7 +31,7 @@ length(A[A > 0])/10000
 
 
 # check contrasts are orthogonal 
-cor(orth_contrasts)
+cor(sim_data)
 
 
 ```
@@ -60,5 +60,6 @@ t_results <- replicate(10000,t.test(rnorm(20,0,1),rnorm(20,0.5,1), var.equal = T
 
 hist(t_results)
 
+  
 ```
 
