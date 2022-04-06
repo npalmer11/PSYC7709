@@ -2,6 +2,7 @@ template:
   bootstrap: 5
   bootswatch: journal
   bslib:
+    bg: "#fff9ee"
     fg: "#FD2DD4"
 
 
