@@ -12,7 +12,6 @@ template:
 
 navbar:
     bg: "dark"
-    fg: "#FD2DD4"
   structure:
     left: [articles, Rbasics, slides, reference, tutorials, news]
     right: [search, github]
