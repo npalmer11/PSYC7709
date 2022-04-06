@@ -15,7 +15,6 @@ knitr::opts_chunk$set(echo = TRUE)
   C. How many subjects are needed to detect the interaction effect with power = .8? 
   
 ```{r}
-
 #load libraries
 library(tibble)
 library(ggplot2)
@@ -27,9 +26,36 @@ sd <- 1
 A <- c(0,5,10,15,20,25,50)
 B <- c(0,5,-15)
 AB <- rep(0,length(A)*length(B))
+```
 
 
+```{r}
+# N per group
+N <- 800
 
+A_pvalue <- c()
+B_pvalue <- c()
+AB_pvalue <- c()
+for(i in 1:1000){
+  IVA <- rep(rep(c("1","2"), each=800),N)
+  IVB <- rep(rep(c("1","2"), 2),N)
+  DV <- c(replicate(N,c(rnorm(1,0,1), # means A1B1
+                        rnorm(1,0,1), # means A1B2
+                        rnorm(1,.5,1), # means A2B1
+                        rnorm(1,.5,1)  # means A2B2
+          )))
+  sim_df <- data.frame(IVA,IVB,DV)
+  
+  aov_results <- summary(aov(DV~IVA*IVB, sim_df))
+  A_pvalue[i]<-aov_results[[1]]$`Pr(>F)`[1]
+  B_pvalue[i]<-aov_results[[1]]$`Pr(>F)`[2]
+  AB_pvalue[i]<-aov_results[[1]]$`Pr(>F)`[3]
+}
+
+length(A_pvalue[A_pvalue<0.05])/1000
+length(B_pvalue[B_pvalue<0.05])/1000
+length(AB_pvalue[AB_pvalue<0.05])/1000
 
 ```
-  
+
+
