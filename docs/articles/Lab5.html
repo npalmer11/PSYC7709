@@ -156,11 +156,9 @@
 <span class="va">aov.out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/aov.html" class="external-link">aov</a></span><span class="op">(</span><span class="va">DV</span> <span class="op">~</span> <span class="va">IV</span>, data <span class="op">=</span> <span class="va">alternative_data</span><span class="op">)</span>
 <span class="va">simulated_F</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">aov.out</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">`F value`</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">aov.out</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    </span>
-<span class="co">## IV           3  21.29   7.096    6.79 0.000959 ***</span>
-<span class="co">## Residuals   36  37.62   1.045                     </span>
-<span class="co">## ---</span>
-<span class="co">## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></code></pre>
+<pre><code><span class="co">##             Df Sum Sq Mean Sq F value Pr(&gt;F)</span>
+<span class="co">## IV           3   0.56  0.1852   0.143  0.933</span>
+<span class="co">## Residuals   36  46.61  1.2948</span></code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/effectsize/" class="external-link">effectsize</a></span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## Warning: package 'effectsize' was built under R version 4.1.2</span></code></pre>
@@ -172,7 +170,7 @@
 <span class="co">## </span>
 <span class="co">## Parameter | Eta2 |       95% CI</span>
 <span class="co">## -------------------------------</span>
-<span class="co">## IV        | 0.36 | [0.13, 1.00]</span>
+<span class="co">## IV        | 0.01 | [0.00, 1.00]</span>
 <span class="co">## </span>
 <span class="co">## - One-sided CIs: upper bound fixed at (1).</span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -201,7 +199,7 @@
 <span class="op">}</span>
 
 <span class="fu">run_simulation</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] 0.2647383</span></code></pre>
+<pre><code><span class="co">## [1] 0.164266</span></code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://easystats.github.io/effectsize/reference/eta_squared.html" class="external-link">eta_squared</a></span><span class="op">(</span><span class="va">aov.out</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## For one-way between subjects designs, partial eta squared is equivalent to eta squared.</span>
@@ -210,7 +208,7 @@
 <span class="co">## </span>
 <span class="co">## Parameter | Eta2 |       95% CI</span>
 <span class="co">## -------------------------------</span>
-<span class="co">## IV        | 0.36 | [0.13, 1.00]</span>
+<span class="co">## IV        | 0.01 | [0.00, 1.00]</span>
 <span class="co">## </span>
 <span class="co">## - One-sided CIs: upper bound fixed at (1).</span></code></pre>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -221,7 +219,7 @@
 <span class="co">## </span>
 <span class="co">## Parameter | Eta2 |       95% CI</span>
 <span class="co">## -------------------------------</span>
-<span class="co">## IV        | 0.36 | [0.13, 1.00]</span>
+<span class="co">## IV        | 0.01 | [0.00, 1.00]</span>
 <span class="co">## </span>
 <span class="co">## - One-sided CIs: upper bound fixed at (1).</span></code></pre>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
@@ -236,26 +234,26 @@
 <pre><code><span class="co">##  [1] 1 1 1 1 1 1 1 1 1 1</span></code></pre>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="fl">100</span>,<span class="fu">run_simulation</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##   [1] 0.17567836 0.35077676 0.37119292 0.37793122 0.29995953 0.19616223</span>
-<span class="co">##   [7] 0.28382377 0.13487154 0.22294332 0.45062496 0.10891723 0.18838408</span>
-<span class="co">##  [13] 0.07765877 0.15311490 0.19545598 0.32935979 0.46218898 0.08761317</span>
-<span class="co">##  [19] 0.23939910 0.23620841 0.14119325 0.53973330 0.24363831 0.19649625</span>
-<span class="co">##  [25] 0.47100023 0.16986010 0.04299509 0.31640274 0.33438648 0.08457948</span>
-<span class="co">##  [31] 0.19592935 0.11342217 0.10048942 0.02388754 0.22765028 0.11888820</span>
-<span class="co">##  [37] 0.32801097 0.33215742 0.28428548 0.10652709 0.11305009 0.20735026</span>
-<span class="co">##  [43] 0.28514984 0.10039728 0.14040202 0.24549667 0.29085022 0.45270859</span>
-<span class="co">##  [49] 0.23675634 0.28784295 0.04599365 0.15665647 0.25156352 0.21673406</span>
-<span class="co">##  [55] 0.04911571 0.33493489 0.34117803 0.13777158 0.18914540 0.13646104</span>
-<span class="co">##  [61] 0.41574926 0.26466105 0.12868829 0.19715090 0.36910399 0.32506527</span>
-<span class="co">##  [67] 0.18249338 0.10749706 0.12781323 0.19727302 0.02874130 0.31092287</span>
-<span class="co">##  [73] 0.14855192 0.27852791 0.25461769 0.31175340 0.20381181 0.36751196</span>
-<span class="co">##  [79] 0.28719403 0.43969963 0.10616559 0.14603738 0.22242266 0.27540682</span>
-<span class="co">##  [85] 0.16149409 0.28844546 0.07951938 0.09155909 0.24038983 0.22459359</span>
-<span class="co">##  [91] 0.17078453 0.27231396 0.06899821 0.10472932 0.37441100 0.17895027</span>
-<span class="co">##  [97] 0.33289413 0.24866573 0.16545811 0.19036019</span></code></pre>
+<pre><code><span class="co">##   [1] 0.307590663 0.231402977 0.338793011 0.204188185 0.295857655 0.176774071</span>
+<span class="co">##   [7] 0.228563298 0.159383166 0.098327756 0.211710317 0.195745310 0.137571890</span>
+<span class="co">##  [13] 0.295185789 0.056322201 0.356859781 0.164531550 0.227378929 0.236473355</span>
+<span class="co">##  [19] 0.354653281 0.220939906 0.150678360 0.363118078 0.260971407 0.145170351</span>
+<span class="co">##  [25] 0.168426556 0.203387287 0.163292261 0.477233414 0.094940053 0.191769073</span>
+<span class="co">##  [31] 0.134102229 0.178297947 0.287138798 0.244847751 0.350335472 0.305939346</span>
+<span class="co">##  [37] 0.070619408 0.205173770 0.148015210 0.449726003 0.306813778 0.063745447</span>
+<span class="co">##  [43] 0.240099999 0.294504845 0.192413868 0.318570655 0.225548918 0.294711532</span>
+<span class="co">##  [49] 0.080129169 0.003742201 0.129749901 0.168413240 0.122497783 0.163047776</span>
+<span class="co">##  [55] 0.195687115 0.340900019 0.259951631 0.096368341 0.167734221 0.255755570</span>
+<span class="co">##  [61] 0.224427066 0.400146157 0.213085562 0.071639446 0.120030678 0.407424473</span>
+<span class="co">##  [67] 0.143528196 0.295295526 0.208116928 0.195698835 0.285175613 0.232237632</span>
+<span class="co">##  [73] 0.349548182 0.256967072 0.231450102 0.273819063 0.189848360 0.260247088</span>
+<span class="co">##  [79] 0.211850046 0.256126298 0.290774804 0.030389935 0.277058166 0.013656267</span>
+<span class="co">##  [85] 0.243166429 0.207683288 0.099178735 0.176696319 0.391540670 0.204550560</span>
+<span class="co">##  [91] 0.344551521 0.453741802 0.205195745 0.184882550 0.190638690 0.406452020</span>
+<span class="co">##  [97] 0.226780557 0.166000922 0.082895765 0.110594794</span></code></pre>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="fl">100</span>,<span class="fu">run_simulation</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] 0.2294206</span></code></pre>
+<pre><code><span class="co">## [1] 0.2086176</span></code></pre>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">run_simulation</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
   
@@ -285,57 +283,57 @@
 <span class="op">}</span>
 
 <span class="fu">run_simulation</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] 0.56840006 0.05383361</span></code></pre>
+<pre><code><span class="co">## [1] 0.50134474 0.06259542</span></code></pre>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="fl">100</span>,<span class="fu">run_simulation</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##            [,1]        [,2]       [,3]       [,4]        [,5]       [,6]</span>
-<span class="co">## [1,] 0.56608616 0.954045363 0.66070790 0.56476609 0.002222538 0.37513131</span>
-<span class="co">## [2,] 0.05412446 0.009036145 0.04274498 0.05429072 0.329310345 0.08166969</span>
-<span class="co">##           [,7]      [,8]        [,9]      [,10]      [,11]     [,12]     [,13]</span>
-<span class="co">## [1,] 0.2549676 0.8165160 0.008875427 0.36169597 0.46335696 0.2586096 0.2276475</span>
-<span class="co">## [2,] 0.1053188 0.0253464 0.272433306 0.08397761 0.06792059 0.1044776 0.1119755</span>
-<span class="co">##            [,14]     [,15]      [,16]      [,17]      [,18]      [,19]</span>
-<span class="co">## [1,] 0.009185866 0.1364202 0.75431534 0.85157566 0.56618074 0.30669397</span>
-<span class="co">## [2,] 0.270949721 0.1408046 0.03220339 0.02144675 0.05411255 0.09421035</span>
-<span class="co">##          [,20]      [,21]     [,22]       [,23]      [,24]      [,25]</span>
-<span class="co">## [1,] 0.0578911 0.86843764 0.1402701 0.007824385 0.03958811 0.05710159</span>
-<span class="co">## [2,] 0.1855204 0.01954216 0.1392842 0.277841125 0.20421607 0.18620690</span>
-<span class="co">##            [,26]      [,27]      [,28]      [,29]     [,30]     [,31]     [,32]</span>
-<span class="co">## [1,] 0.958125339 0.70797720 0.61289631 0.09296462 0.1624015 0.6007548 0.5864659</span>
-<span class="co">## [2,] 0.008460237 0.03736264 0.04837341 0.16129032 0.1311979 0.0498397 0.0515873</span>
-<span class="co">##           [,33]      [,34]     [,35]      [,36]      [,37]      [,38]</span>
-<span class="co">## [1,] 0.29190512 0.31137604 0.2650641 0.35236362 0.62309238 0.67705160</span>
-<span class="co">## [2,] 0.09721627 0.09328358 0.1030111 0.08562109 0.04715447 0.04086657</span>
-<span class="co">##           [,39]      [,40]     [,41]     [,42]     [,43]      [,44]     [,45]</span>
-<span class="co">## [1,] 0.07029017 0.35235869 0.1497492 0.6331817 0.2593120 0.63432092 0.1914106</span>
-<span class="co">## [2,] 0.17572464 0.08562197 0.1356922 0.0459588 0.1043165 0.04582441 0.1219512</span>
-<span class="co">##           [,46]       [,47]      [,48]      [,49]      [,50]     [,51]</span>
-<span class="co">## [1,] 0.48343808 0.996067866 0.75569174 0.06211989 0.08681418 0.5864659</span>
-<span class="co">## [2,] 0.06506849 0.001669449 0.03205128 0.18198198 0.16486091 0.0515873</span>
-<span class="co">##           [,52]      [,53]      [,54]      [,55]     [,56]       [,57]</span>
-<span class="co">## [1,] 0.92047121 0.58447228 0.34369326 0.08384538 0.8095145 0.983036914</span>
-<span class="co">## [2,] 0.01341282 0.05183312 0.08717949 0.16666667 0.0261194 0.004510045</span>
-<span class="co">##           [,58]      [,59]      [,60]      [,61]      [,62]      [,63]</span>
-<span class="co">## [1,] 0.80615378 0.77869218 0.06210249 0.51425509 0.52438312 0.41455909</span>
-<span class="co">## [2,] 0.02649007 0.02951476 0.18199609 0.06085024 0.05950197 0.07525084</span>
-<span class="co">##           [,64]      [,65]      [,66]     [,67]      [,68]      [,69]     [,70]</span>
-<span class="co">## [1,] 0.61451954 0.05362407 0.09408784 0.1044704 0.09000097 0.33179126 0.1235834</span>
-<span class="co">## [2,] 0.04817861 0.18933751 0.16066130 0.1551459 0.16298343 0.08937109 0.1461650</span>
-<span class="co">##           [,71]      [,72]      [,73]     [,74]       [,75]      [,76]</span>
-<span class="co">## [1,] 0.02122626 0.04131051 0.80673850 0.1412597 0.964199009 0.53988794</span>
-<span class="co">## [2,] 0.23361681 0.20215150 0.02642559 0.1388993 0.007575758 0.05747126</span>
-<span class="co">##           [,77]      [,78]      [,79]      [,80]      [,81]      [,82]</span>
-<span class="co">## [1,] 0.08432917 0.08941556 0.47089906 0.70465874 0.66784628 0.08300413</span>
-<span class="co">## [2,] 0.16636852 0.16332378 0.06683915 0.03773585 0.04192204 0.16718884</span>
-<span class="co">##          [,83]      [,84]      [,85]      [,86]      [,87]      [,88]</span>
-<span class="co">## [1,] 0.1258407 0.07058298 0.82909720 0.07837694 0.41348707 0.01875662</span>
-<span class="co">## [2,] 0.1451876 0.17551286 0.02395367 0.17014925 0.07541899 0.23927987</span>
-<span class="co">##           [,89]     [,90]      [,91]      [,92]      [,93]     [,94]     [,95]</span>
-<span class="co">## [1,] 0.41995017 0.1811895 0.92653330 0.63909916 0.05727505 0.1649720 0.2477145</span>
-<span class="co">## [2,] 0.07441016 0.1250604 0.01265823 0.04526213 0.18605532 0.1303226 0.1070246</span>
-<span class="co">##           [,96]      [,97]      [,98]     [,99]    [,100]</span>
-<span class="co">## [1,] 0.93033429 0.92586626 0.77635365 0.4754369 0.1485761</span>
-<span class="co">## [2,] 0.01217862 0.01274186 0.02977233 0.0661945 0.1361257</span></code></pre>
+<pre><code><span class="co">##           [,1]      [,2]        [,3]       [,4]       [,5]      [,6]       [,7]</span>
+<span class="co">## [1,] 0.1161182 0.2292364 0.002661502 0.48894229 0.33694389 0.1511189 0.55050425</span>
+<span class="co">## [2,] 0.1495146 0.1115702 0.322207959 0.06430155 0.08841463 0.1351899 0.05610278</span>
+<span class="co">##           [,8]      [,9]      [,10]     [,11]      [,12]       [,13]      [,14]</span>
+<span class="co">## [1,] 0.1529760 0.1907016 0.05248335 0.2066090 0.60159068 0.003715925 0.51725479</span>
+<span class="co">## [2,] 0.1345151 0.1221622 0.19040480 0.1175844 0.04973822 0.308827207 0.06044905</span>
+<span class="co">##          [,15]      [,16]      [,17]     [,18]     [,19]     [,20]      [,21]</span>
+<span class="co">## [1,] 0.1524426 0.36115384 0.73493327 0.6571507 0.5631713 0.8212527 0.31894137</span>
+<span class="co">## [2,] 0.1347082 0.08407215 0.03435115 0.0431566 0.0544919 0.0248227 0.09180997</span>
+<span class="co">##           [,22]      [,23]      [,24]       [,25]      [,26]      [,27]</span>
+<span class="co">## [1,] 0.91163655 0.40517092 0.37404993 0.970455579 0.35712076 0.75802864</span>
+<span class="co">## [2,] 0.01449275 0.07673494 0.08185301 0.006622517 0.08477905 0.03179313</span>
+<span class="co">##           [,28]       [,29]      [,30]     [,31]      [,32]      [,33]</span>
+<span class="co">## [1,] 0.02217974 0.994014745 0.51085777 0.1626943 0.64558228 0.88525176</span>
+<span class="co">## [2,] 0.23159194 0.002217295 0.06130653 0.1310976 0.04450262 0.01761252</span>
+<span class="co">##          [,34]      [,35]       [,36]      [,37]      [,38]      [,39]</span>
+<span class="co">## [1,] 0.1497297 0.06052247 0.994835859 0.27890077 0.82743572 0.01462422</span>
+<span class="co">## [2,] 0.1356994 0.18329211 0.002006689 0.09996565 0.02413793 0.25051251</span>
+<span class="co">##          [,40]      [,41]      [,42]      [,43]     [,44]      [,45]      [,46]</span>
+<span class="co">## [1,] 0.3844283 0.89569625 0.51555463 0.37111342 0.2669013 0.78725904 0.79994910</span>
+<span class="co">## [2,] 0.0801105 0.01639344 0.06067624 0.08235294 0.1025992 0.02857143 0.02717391</span>
+<span class="co">##           [,47]      [,48]      [,49]      [,50]      [,51]      [,52]</span>
+<span class="co">## [1,] 0.51634518 0.58190794 0.01988377 0.78468755 0.45971471 0.71087666</span>
+<span class="co">## [2,] 0.06057054 0.05215005 0.23661485 0.02885456 0.06844741 0.03703704</span>
+<span class="co">##           [,53]      [,54]     [,55]      [,56]      [,57]     [,58]      [,59]</span>
+<span class="co">## [1,] 0.62264937 0.77859889 0.1705236 0.57949063 0.03833045 0.2239444 0.07841467</span>
+<span class="co">## [2,] 0.04720721 0.02952503 0.1284722 0.05244957 0.20577617 0.1129296 0.17012448</span>
+<span class="co">##           [,60]      [,61]     [,62]     [,63]     [,64]      [,65]      [,66]</span>
+<span class="co">## [1,] 0.58763887 0.36802349 0.2050170 0.9900776 0.3641739 0.79154812 0.39209464</span>
+<span class="co">## [2,] 0.05144291 0.08288237 0.1180285 0.0031250 0.0835469 0.02809917 0.07884682</span>
+<span class="co">##           [,67]      [,68]     [,69]      [,70]      [,71]       [,72]</span>
+<span class="co">## [1,] 0.51783255 0.69065464 0.1863206 0.47774528 0.81186869 0.005415075</span>
+<span class="co">## [2,] 0.06037196 0.03931786 0.1234810 0.06586826 0.02585962 0.293358430</span>
+<span class="co">##           [,73]      [,74]      [,75]     [,76]     [,77]     [,78]     [,79]</span>
+<span class="co">## [1,] 0.60581616 0.42668221 0.49285713 0.1679890 0.4216403 0.1295448 0.2300501</span>
+<span class="co">## [2,] 0.04922644 0.07337181 0.06375977 0.1293103 0.0741483 0.1436170 0.1113636</span>
+<span class="co">##          [,80]     [,81]      [,82]     [,83]      [,84]      [,85]      [,86]</span>
+<span class="co">## [1,] 0.2474903 0.1764172 0.53302142 0.2261914 0.29024760 0.31952627 0.06671311</span>
+<span class="co">## [2,] 0.1070780 0.1265647 0.05836576 0.1123491 0.09756098 0.09169723 0.17837838</span>
+<span class="co">##            [,87]      [,88]     [,89]      [,90]     [,91]      [,92]</span>
+<span class="co">## [1,] 0.008878244 0.43616990 0.1516704 0.80217776 0.1134915 0.37111342</span>
+<span class="co">## [2,] 0.272419628 0.07192918 0.1349887 0.02692834 0.1507389 0.08235294</span>
+<span class="co">##           [,93]      [,94]      [,95]      [,96]     [,97]     [,98]      [,99]</span>
+<span class="co">## [1,] 0.05854418 0.59249056 0.07724406 0.56420414 0.1147846 0.1713026 0.70104810</span>
+<span class="co">## [2,] 0.18495887 0.05084746 0.17089807 0.05436157 0.1501330 0.1282168 0.03814262</span>
+<span class="co">##          [,100]</span>
+<span class="co">## [1,] 0.82257949</span>
+<span class="co">## [2,] 0.02467587</span></code></pre>
   </main>
 </div>
 
