@@ -6,7 +6,7 @@ template:
     fg: "#FD2DD4"
     base_font: {google: "Noto Serif"}
     heading_font: {google: "Abril Fatface"}
-    code_font: {google: "JetBrains Mono"}
+    code_font: {google: "Space Mono"}
 
 
 
