@@ -11,7 +11,7 @@ template:
 
 
 navbar:
-    bg: "#fe6851"
+    bg: "dark"
     fg: "#FD2DD4"
   structure:
     left: [articles, Rbasics, slides, reference, tutorials, news]
