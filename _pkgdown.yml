@@ -2,8 +2,11 @@ template:
   bootstrap: 5
   bootswatch: journal
   bslib:
-    bg: "#fff9ee"
+    bg: "#fcfbf9"
     fg: "#FD2DD4"
+    base_font: {google: "Noto Serif"}
+    heading_font: {google: "Abril Fatface"}
+    code_font: {google: "JetBrains Mono"}
 
 
 
