@@ -11,8 +11,8 @@ template:
 
 
 navbar:
-    bg: "dark"
   structure:
+    bg: "dark"
     left: [articles, Rbasics, slides, reference, tutorials, news]
     right: [search, github]
   components:
