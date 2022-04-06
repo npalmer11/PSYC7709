@@ -20,18 +20,24 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tibble)
 library(tidyr)
 library(dplyr)
-options(dplyr.summarise.inform = FALSE)
-sim_data <- tibble(DV= rnorm(6*100,0,1))
 
-A <- replicate(10000,rbinom(1,20,.05))
+?rbinom()
+A <- replicate(10000,sum(rbinom(20,1,.05)))
 hist(A)
 
-A <- rbinom(10000,50,.05)
 length(A[A > 0])/10000
 
 
-# check contrasts are orthogonal 
-cor(sim_data)
+B <- replicate(10000,sum(rbinom(50,1,.05)))
+hist(B)
+
+length(B[B > 0])/10000
+
+4-3
+rbinom(20,3,.05)
+D <- replicate(10000,sum(rbinom(20,3,.05)))
+length(D[D > 0])/10000
+hist(D)
 
 
 ```
@@ -43,16 +49,29 @@ cor(sim_data)
 2. Consider that a researcher publishes a study showing a significant effect, p <. 05; but, in reality the researcher makes a type I error, and the manipulation did not cause any difference. If many other researchers replicated the study, what kind of p-values would they find? Use R to create a sampling distribution of p-values that would be expected in this situation. What shape does this distribution have? (2 points)
 
 ```{r}
+library(tibble)
 
-t_results <- replicate(10000,t.test(rnorm(10,0,1),rnorm(10,0,1), var.equal = TRUE)$p.value)
+my_pvalues <- c()
 
-hist(t_results)
+for (i in 1:10000) {
+  
+  IV <- rep(1:2, each=20)
+  DV <- c(rnorm(20,0,1),rnorm(20,0,1))
 
+  sim_data <- tibble(IV,DV)
+
+  my_pvalues[i] <- t.test(DV~IV, var.equal=TRUE, data = sim_data)$p.value
+
+}
+
+  hist(my_pvalues)
 
 
 ```
 
 3. Now assume that the published result reflects a true effect. Specifically, let’s imagine the study had two groups (between-subjects), with 20 subjects in each group. Assume that scores for subjects are all sampled from a normal distribution, and that group A has larger mean than group B by .5 standard deviations (e.g., Cohen’s d = .5). If many other researchers replicated the study, what kind of p-values would they find? Use R to create a sampling distribution of p-values that would be expected in this situation. What shape does this distribution have? (2 points)
+ 
+  *there is a curve to the histogram. When there really is a true effect, we expect to see p-values that are not be equally distributed between 0 and 1. 
 
 ```{r}
 
@@ -63,3 +82,62 @@ hist(t_results)
   
 ```
 
+4. Same as #3, except that we now assume the design has four groups (between-subjects). Assume that group A has a mean that is .5 standard deviations larger than groups B, C, and D. Use R to create a sampling distribution of p-values that would be expected for the linear contrast evaluating the research hypothesis that A > B = C = D. (1 point)
+```{r}
+my_pvalues <- c()
+for (i in 1:10) {
+  
+  IV <- factor(rep(1:4,each=20))
+  DV <- c(rnorm(20,0.5,1),rnorm(20,0,1),rnorm(20,0,1),rnorm(20,0,1))
+  
+  sim_data <- tibble(IV,DV)
+  
+  c1 <- c(3,-1,-1,-1)
+  
+  contrasts(sim_data$IV) <- c1
+  
+  aov.out <- aov(DV~IV, sim_data)
+  
+  save_results <- summary.aov(aov.out, split = list(IV=list("c1" =1)))
+  
+  my_pvalues[i] <- save_results[[1]]$`Pr(>F)`[2]
+  
+
+}
+
+  hist(my_pvalues)
+```
+
+5.Consider a one-factor between subjects ANOVA with four groups. Run two simulations of the null-hypothesis, one for the omnibus test, and one for the specific linear contrast mentioned above A > B = C = D. Is the probability of rejecting a type I error (for rejecting the null with alpha < .05) the same for the omnibus test versus a specific contrast? (1 point)
+
+```{r}
+
+omnibus_pvalues <- c()
+contrast_pvalues <- c()
+for (i in 1:10) {
+  
+  IV <- factor(rep(1:4,each=20))
+  DV <- c(rnorm(20,0.5,1),rnorm(20,0,1),rnorm(20,0,1),rnorm(20,0,1))
+  
+  sim_data <- tibble(IV,DV)
+  
+  c1 <- c(3,-1,-1,-1)
+  
+  contrasts(sim_data$IV) <- c1
+  
+  aov.out <- aov(DV~IV, sim_data)
+  
+  save_results <- summary.aov(aov.out, split = list(IV=list("c1" =1)))
+  
+  omnibus_pvalues[i] <- save_results[[1]]$`Pr(>F)`[1]
+  contrast_pvalues[i] <- save_results[[1]]$`Pr(>F)`[2]
+  
+}
+
+length(omnibus_pvalues[omnibus_pvalues < .05])/1000
+length(contrast_pvalues[contrast_pvalues < .05])/1000
+
+
+
+
+```

@@ -1,0 +1,35 @@
+---
+title: "Lab8"
+author: "Natalie Palmer"
+date: "4/4/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. Consider a 2x2 design. Assume the DV is measured from a normal distribution with mean 0, and standard deviation 1. Assume that the main effect of A causes a total shift of .5 standard deviations of the mean between the levels. Assume that level 1 of B is a control, where you expect to measure the standard effect of A. Assume that level 2 of B is an experimental factor intended to reduce the effect of A by .25 standard deviations.
+  A. create a ggplot2 figure that depicts the expected results from this design 
+  B. How many subjects are needed to detect the main effect of A with power = .8? 
+  C. How many subjects are needed to detect the interaction effect with power = .8? 
+  
+```{r}
+
+#load libraries
+library(tibble)
+library(ggplot2)
+library(patchwork)
+
+# define 2-factor score model
+mean <- 0
+sd <- 1
+A <- c(0,5,10,15,20,25,50)
+B <- c(0,5,-15)
+AB <- rep(0,length(A)*length(B))
+
+
+
+
+```
+  

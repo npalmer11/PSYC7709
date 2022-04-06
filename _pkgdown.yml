@@ -8,14 +8,13 @@ navbar:
     left: [articles, Rbasics, slides, reference, tutorials, news]
     right: [search, github]
   components:
-   Rbasics:
-    text: Rbasics
-    menu:
-    - text: Rbasics
-    - href: articles/Rbasics.html
-  components:
-   slides:
-     text: slides
-     menu:
-    - text: slides
-    - href: slides/myslidess.html
+    Rbasics:
+      text: Rbasics
+      menu:
+      - text: Rbasics
+      - href: articles/Rbasics.html
+    slides:
+      text: slides
+      menu:
+      - text: slides
+      - href: slides/myslidess.html
