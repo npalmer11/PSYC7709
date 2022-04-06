@@ -9,10 +9,9 @@ template:
     code_font: {google: "Space Mono"}
 
 
-
 navbar:
   structure:
-    bg: "dark"
+    bg: dark
     left: [articles, Rbasics, slides, reference, tutorials, news]
     right: [search, github]
   components:
