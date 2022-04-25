@@ -25,3 +25,8 @@ navbar:
       menu:
       - text: slides
       - href: slides/myslidess.html
+    Posters:
+      text: posters
+      menu:
+      - text: posters
+      - href: posters/post.Rmd

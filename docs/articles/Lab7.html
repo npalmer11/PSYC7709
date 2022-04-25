@@ -225,7 +225,7 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sims</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="fl">10000</span>,<span class="fl">7</span>,<span class="fl">.05</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">sims</span> <span class="op">[</span><span class="va">sims</span> <span class="op">&gt;</span> <span class="fl">0</span> <span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="fl">10000</span></code></pre></div>
-<pre><code><span class="co">## [1] 0.2986</span></code></pre>
+<pre><code><span class="co">## [1] 0.3029</span></code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">12</span>
 <span class="va">factorial_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tibble/man/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"L1"</span>,<span class="st">"L2"</span><span class="op">)</span>, each <span class="op">=</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span>,
@@ -234,17 +234,15 @@
                          DV <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">*</span><span class="fl">2</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/aov.html" class="external-link">aov</a></span><span class="op">(</span><span class="va">DV</span> <span class="op">~</span> <span class="va">A</span><span class="op">*</span><span class="va">B</span><span class="op">*</span><span class="va">C</span>, data <span class="op">=</span> <span class="va">factorial_data</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##             Df Sum Sq Mean Sq F value Pr(&gt;F)  </span>
-<span class="co">## A            1  0.310  0.3099   0.703  0.414  </span>
-<span class="co">## B            1  0.488  0.4883   1.107  0.308  </span>
-<span class="co">## C            1  0.529  0.5289   1.199  0.290  </span>
-<span class="co">## A:B          1  0.747  0.7474   1.694  0.211  </span>
-<span class="co">## A:C          1  0.414  0.4139   0.938  0.347  </span>
-<span class="co">## B:C          1  0.119  0.1188   0.269  0.611  </span>
-<span class="co">## A:B:C        1  2.131  2.1314   4.832  0.043 *</span>
-<span class="co">## Residuals   16  7.057  0.4411                 </span>
-<span class="co">## ---</span>
-<span class="co">## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></code></pre>
+<pre><code><span class="co">##             Df Sum Sq Mean Sq F value Pr(&gt;F)</span>
+<span class="co">## A            1  0.482  0.4816   0.288  0.599</span>
+<span class="co">## B            1  2.897  2.8975   1.732  0.207</span>
+<span class="co">## C            1  1.673  1.6728   1.000  0.332</span>
+<span class="co">## A:B          1  0.807  0.8065   0.482  0.497</span>
+<span class="co">## A:C          1  0.054  0.0543   0.032  0.859</span>
+<span class="co">## B:C          1  0.731  0.7307   0.437  0.518</span>
+<span class="co">## A:B:C        1  2.314  2.3136   1.383  0.257</span>
+<span class="co">## Residuals   16 26.764  1.6727</span></code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># set up tibble to save simulation values</span>
 <span class="va">save_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tibble/man/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="op">)</span>
@@ -277,7 +275,7 @@
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/count.html" class="external-link">count</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">type_I_errors</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">/</span><span class="fl">1000</span></code></pre></div>
-<pre><code><span class="co">## [1] 0.291</span></code></pre>
+<pre><code><span class="co">## [1] 0.292</span></code></pre>
   </main>
 </div>
 
