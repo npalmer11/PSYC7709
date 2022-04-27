@@ -4,6 +4,9 @@
     <loc>/404.html</loc>
   </url>
   <url>
+    <loc>/Untitled/Untitled/Untitled.html</loc>
+  </url>
+  <url>
     <loc>/articles/Lab1.html</loc>
   </url>
   <url>
@@ -47,5 +50,11 @@
   </url>
   <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/slides/Untitled.html</loc>
+  </url>
+  <url>
+    <loc>/slides/myslidess.html</loc>
   </url>
 </urlset>

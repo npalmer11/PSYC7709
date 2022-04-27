@@ -55,15 +55,13 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-rbasics">Rbasics</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-rbasics">
-    <h6 class="dropdown-header" data-toc-skip>Rbasics</h6>
-    <a class="dropdown-item" href="../articles/Rbasics.html"></a>
+    <a class="dropdown-item" href="../articles/Rbasics.html">Rbasics</a>
   </div>
 </li>
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-slides">slides</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-slides">
-    <h6 class="dropdown-header" data-toc-skip>slides</h6>
-    <a class="dropdown-item" href="../slides/myslidess.html"></a>
+    <a class="dropdown-item" href="../slides/myslidess.html">slides</a>
   </div>
 </li>
 <li class="nav-item">
@@ -157,13 +155,13 @@
 <span class="op">}</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">A_pvalue</span><span class="op">[</span><span class="va">A_pvalue</span><span class="op">&lt;</span><span class="fl">0.05</span><span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="fl">1000</span></code></pre></div>
-<pre><code><span class="co">## [1] 0.832</span></code></pre>
+<pre><code><span class="co">## [1] 0.829</span></code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">B_pvalue</span><span class="op">[</span><span class="va">B_pvalue</span><span class="op">&lt;</span><span class="fl">0.05</span><span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="fl">1000</span></code></pre></div>
-<pre><code><span class="co">## [1] 0.156</span></code></pre>
+<pre><code><span class="co">## [1] 0.138</span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">AB_pvalue</span><span class="op">[</span><span class="va">AB_pvalue</span><span class="op">&lt;</span><span class="fl">0.05</span><span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="fl">1000</span></code></pre></div>
-<pre><code><span class="co">## [1] 0.16</span></code></pre>
+<pre><code><span class="co">## [1] 0.142</span></code></pre>
 <p>C. How many subjects are needed to detect the interaction effect with power = .8?</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">525</span>
@@ -191,10 +189,10 @@
 <pre><code><span class="co">## [1] 1</span></code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">B_pvalue</span><span class="op">[</span><span class="va">B_pvalue</span><span class="op">&lt;</span><span class="fl">0.05</span><span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="fl">1000</span></code></pre></div>
-<pre><code><span class="co">## [1] 0.829</span></code></pre>
+<pre><code><span class="co">## [1] 0.806</span></code></pre>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">AB_pvalue</span><span class="op">[</span><span class="va">AB_pvalue</span><span class="op">&lt;</span><span class="fl">0.05</span><span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="fl">1000</span></code></pre></div>
-<pre><code><span class="co">## [1] 0.814</span></code></pre>
+<pre><code><span class="co">## [1] 0.817</span></code></pre>
 <p>B1. Create a power curve showing how power for the interaction effect in this example is influenced by number of subjects. Choose a range of N from 25 to 800 (per cell) and run a simulation-based power analysis for increments of 25 subjects. Then plot the results using ggplot2 (2 points).</p>
   </main>
 </div>

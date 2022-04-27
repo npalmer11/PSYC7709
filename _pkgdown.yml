@@ -12,21 +12,21 @@ template:
 navbar:
   structure:
     bg: dark
-    left: [articles, Rbasics, slides, reference, tutorials, news]
+    left: [articles, Rbasics, slides, Posters, reference, tutorials, news]
     right: [search, github]
   components:
     Rbasics:
       text: Rbasics
       menu:
       - text: Rbasics
-      - href: articles/Rbasics.html
+        href: articles/Rbasics.html
     slides:
       text: slides
       menu:
       - text: slides
-      - href: slides/myslidess.html
+        href: slides/myslidess.html
     Posters:
       text: posters
       menu:
       - text: posters
-      - href: posters/Untitled.html
+        href: posters/Untitled.html
