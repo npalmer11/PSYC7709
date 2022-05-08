@@ -10,7 +10,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 1. Consider a 2x2 design. Assume the DV is measured from a normal distribution with mean 0, and standard deviation 1. Assume that the main effect of A causes a total shift of .5 standard deviations of the mean between the levels. Assume that level 1 of B is a control, where you expect to measure the standard effect of A. Assume that level 2 of B is an experimental factor intended to reduce the effect of A by .25 standard deviations.
-  A. create a ggplot2 figure that depicts the expected results from this design 
+  A. create a ggplot2 figure that depicts the expected results from this design
+  
+  B. How many subjects are needed to detect the main effect of A with power = .8? 
+
    
   
 ```{r}
@@ -21,24 +24,25 @@ library(patchwork)
 library(tidyverse)
 library(ggplot2)
 
-df <- data.frame(A = c("A1", "A1", "A2","A2"),
-                 B = c("B1", "B2", "B1", "B2"),
-                 dv = c(0,0,0.5,0.25)
 
 
+sim_data <- tibble(
+  subjects = rep(1:6,each=5),
+  IV = rep(c("Down1","Down2", "Control","Up1","Up2"),6),
+  DV = rnorm(1,0,1)
 )
 
-ggplot(df, aes(y=dv, x= B, fill = A)) +
-  geom_bar(stat = "identity", position = "dodge")
-  
-ggplot(df, aes(y=dv, x=B, color = A)) +
+ggplot(sim_data, aes(x=IV, y=DV, group=subjects))+
   geom_point()+
   geom_line()
+
+rnorm(1,0,1)
+
+
 
 ```
 
 
-B. How many subjects are needed to detect the main effect of A with power = .8? 
 
 ```{r}
 

@@ -2,34 +2,173 @@
 title: "Lab 9"
 author: "Natalie Palmer"
 date: "4/27/2022"
-output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Create an R script that can generate simulated data for the following repeated measures design. (2 points)
+1. Create an R script that can generate simulated data for the following repeated 
+measures design. (2 points)
+
 A. The dependent variable is assumed to come from a normal distribution with mean = 0 and standard deviation = 1.
 
 B. There is one repeated measures factor with 5 levels (Down1, Down2, Control, Up1, Up2). The control group is assumed to have no effect. The Down1 and Down2 levels shift the mean down by 1 and 2 standard deviations, respectively. The Up1 and Up2 levels shift the mean up by 1 and 2 standard deviations, respectively.
 
 C. There are 6 subjects in the experiment, and they are each measured once in each condition. The 6 subjects are assumed to be different from one another (e.g., they will have different baseline means in the control condition), but they will all be influenced by the IV in the exact same way (e.g., no interaction).
 
+
+```{r}
+
+library(tibble)
+library(dplyr)
+
+
+sim_data <- tibble(
+  subjects = rep(1:6,each=5),
+  IV = rep(c("Down1","Down2", "Control","Up1","Up2"),6),
+  DV = rnorm(6*5,c(-2,-1,0,1,2),1)
+) %>%
+  mutate(DV = DV+rep(rnorm(6,0,1), each=5))
+
+sim_data$IV <-factor(sim_data$IV, levels = 
+c("Down1","Down2", "Control","Up1","Up2"))
+
+sim_data$subjects < as.factor(sim_data$subjects) 
+
+ggplot(sim_data, aes(x=IV, y=DV, group=subjects,
+                     color=subjects))+
+
+  geom_point()+
+  geom_line()
+
+rnorm(6*5,c(-2,-1,0,1,2),1)
+
+
+
+
+
+
+```
+
+
 2. Run a simulation to determine the proportion of experiments that would return a significant result for the above design. Assume that the effect of the levels of the IV are increments of .1 of a standard deviation, rather than increments of 1 as in the above design.
+
+```{r}
+
+save_p <- c()
+for( i in 1:100){
+
+sim_data <- tibble(
+  subjects = rep(1:6,each=5),
+  IV = rep(c("Down1","Down2", "Control","Up1","Up2"),6),
+  DV = rnorm(6*5,c(-2,-1,0,1,2),1)
+) %>%
+  mutate(DV = DV+rep(rnorm(6,0,1), each=5))
+
+sim_data$IV <-factor(sim_data$IV, levels = 
+c("Down1","Down2", "Control","Up1","Up2"))
+
+sim_data$subjects < as.factor(sim_data$subjects) 
+
+aov_out <- summary(aov(DV ~ IV + Error(subjects), sim_data))
+save_p[i] <- aov_out[2]$`Error: Within`[[1]]$`Pr(>F)`[1]
+}
+
+length(save_p[save_p < .05])/1000
+
+```
 
 3. Demonstrate that the Godden and Baddeley example data from the textbook (19.5), which used a 2x2 repeated measures design, can be be analyzed with one-sample t-tests to return the same results. Specifically, show the one-sample t-tests for each main effect and the interaction. (2 points)
 
-```{r cars}
-summary(cars)
+```{r}
+
+godden_baddeley <- tribble(~Subjects,~LearningPlace,~TestingPlace,~Recall,
+        "s1","On Land","On Land",34,
+        "s2","On Land","On Land",37,
+        "s3","On Land","On Land",27,
+        "s4","On Land","On Land",43,
+        "s5","On Land","On Land",44,
+        "s1","On Land","Under Sea",18,
+        "s2","On Land","Under Sea",21,
+        "s3","On Land","Under Sea",25,
+        "s4","On Land","Under Sea",37,
+        "s5","On Land","Under Sea",34,
+        "s1","Under Sea","On Land",14,
+        "s2","Under Sea","On Land",21,
+        "s3","Under Sea","On Land",31,
+        "s4","Under Sea","On Land",27,
+        "s5","Under Sea","On Land",32,
+        "s1","Under Sea","Under Sea",22,
+        "s2","Under Sea","Under Sea",25,
+        "s3","Under Sea","Under Sea",33,
+        "s4","Under Sea","Under Sea",33,
+        "s5","Under Sea","Under Sea",42
+        )
+
+# convert IVs to factors
+godden_baddeley <- godden_baddeley %>%
+  mutate(Subjects = as.factor(Subjects),
+         LearningPlace = as.factor(LearningPlace),
+         TestingPlace = as.factor(TestingPlace))
+
+# run ANOVA
+aov_out <- aov(Recall ~ LearningPlace*TestingPlace + Error(Subjects/(LearningPlace*TestingPlace)), godden_baddeley)
+
+# print out ANOVA summary table
+summary(aov_out)
+#> 
+#> Error: Subjects
+#>           Df Sum Sq Mean Sq F value Pr(>F)
+#> Residuals  4    680     170               
+#> 
+#> Error: Subjects:LearningPlace
+#>               Df Sum Sq Mean Sq F value Pr(>F)
+#> LearningPlace  1     80      80       2   0.23
+#> Residuals      4    160      40               
+#> 
+#> Error: Subjects:TestingPlace
+#>              Df Sum Sq Mean Sq F value Pr(>F)
+#> TestingPlace  1     20      20     2.5  0.189
+#> Residuals     4     32       8               
+#> 
+#> Error: Subjects:LearningPlace:TestingPlace
+#>                            Df Sum Sq Mean Sq F value Pr(>F)  
+#> LearningPlace:TestingPlace  1    320     320      20 0.0111 *
+#> Residuals                   4     64      16                 
+#> ---
+#> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+# generate plot of means
+library(ggplot2)
+
+ggplot(godden_baddeley, aes(x=TestingPlace,
+                            y=Recall,
+                            shape=LearningPlace,
+                            group=LearningPlace))+
+  geom_point(stat="summary",fun="mean")+
+  geom_line(stat="summary",fun="mean")+
+  theme_classic(base_size=12)
+
+
+#### one-sample t test
+
+# main effect of learning place
+
+learning_place_means <- godden_baddeley %>%
+  group_by(Subjects,LearningPlace) %>%
+  summarize(mean_recall = mean(Recall))
+
+t.test(mean_recall ~ LearningPlace, paired=TRUE, data=learning_place_means)
+
+Learning_land <- learning_place_means %>% 
+  filter(LearningPlace == "On Land") %>%
+  select(mean_recall)
+
+Learning_sea <- learning_place_means %>% 
+  filter(LearningPlace == "Under Sea") %>%
+  select(mean_recall)
+
+
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
