@@ -18,25 +18,22 @@ knitr::opts_chunk$set(echo = TRUE)
   
 ```{r}
 #load libraries
+#load libraries
 library(tibble)
 library(ggplot2)
 library(patchwork)
 library(tidyverse)
 library(ggplot2)
-
-
-
-sim_data <- tibble(
-  subjects = rep(1:6,each=5),
-  IV = rep(c("Down1","Down2", "Control","Up1","Up2"),6),
-  DV = rnorm(1,0,1)
+df <- data.frame(A = c("A1", "A1", "A2","A2"),
+                 B = c("B1", "B2", "B1", "B2"),
+                 dv = c(0,0,0.5,0.25)
 )
-
-ggplot(sim_data, aes(x=IV, y=DV, group=subjects))+
+ggplot(df, aes(y=dv, x= B, fill = A)) +
+  geom_bar(stat = "identity", position = "dodge")
+  
+ggplot(df, aes(y=dv, x=B, color = A)) +
   geom_point()+
   geom_line()
-
-rnorm(1,0,1)
 
 
 

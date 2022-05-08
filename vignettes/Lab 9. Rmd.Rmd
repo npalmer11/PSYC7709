@@ -169,6 +169,8 @@ Learning_sea <- learning_place_means %>%
   filter(LearningPlace == "Under Sea") %>%
   select(mean_recall)
 
+t.test(Learning_land$mean_recall - Learning_sea$mean_recall, mu=0)
+
 
 ```
 
