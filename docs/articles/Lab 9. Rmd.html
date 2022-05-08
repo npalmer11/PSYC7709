@@ -102,31 +102,239 @@
 
     
     
-<p>Create an R script that can generate simulated data for the following repeated measures design. (2 points) A. The dependent variable is assumed to come from a normal distribution with mean = 0 and standard deviation = 1.</p>
+<ol style="list-style-type: decimal">
+<li>Create an R script that can generate simulated data for the following repeated measures design. (2 points)</li>
+</ol>
+<p>A. The dependent variable is assumed to come from a normal distribution with mean = 0 and standard deviation = 1.</p>
 <p>B. There is one repeated measures factor with 5 levels (Down1, Down2, Control, Up1, Up2). The control group is assumed to have no effect. The Down1 and Down2 levels shift the mean down by 1 and 2 standard deviations, respectively. The Up1 and Up2 levels shift the mean up by 1 and 2 standard deviations, respectively.</p>
 <p>C. There are 6 subjects in the experiment, and they are each measured once in each condition. The 6 subjects are assumed to be different from one another (e.g., they will have different baseline means in the control condition), but they will all be influenced by the IV in the exact same way (e.g., no interaction).</p>
-<ol start="2" style="list-style-type: decimal">
-<li><p>Run a simulation to determine the proportion of experiments that would return a significant result for the above design. Assume that the effect of the levels of the IV are increments of .1 of a standard deviation, rather than increments of 1 as in the above design.</p></li>
-<li><p>Demonstrate that the Godden and Baddeley example data from the textbook (19.5), which used a 2x2 repeated measures design, can be be analyzed with one-sample t-tests to return the same results. Specifically, show the one-sample t-tests for each main effect and the interaction. (2 points)</p></li>
-</ol>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cars</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##      speed           dist       </span>
-<span class="co">##  Min.   : 4.0   Min.   :  2.00  </span>
-<span class="co">##  1st Qu.:12.0   1st Qu.: 26.00  </span>
-<span class="co">##  Median :15.0   Median : 36.00  </span>
-<span class="co">##  Mean   :15.4   Mean   : 42.98  </span>
-<span class="co">##  3rd Qu.:19.0   3rd Qu.: 56.00  </span>
-<span class="co">##  Max.   :25.0   Max.   :120.00</span></code></pre>
-<div class="section level2">
-<h2 id="including-plots">Including Plots<a class="anchor" aria-label="anchor" href="#including-plots"></a>
-</h2>
-<p>You can also embed plots, for example:</p>
-<p><img src="Lab%209.%20Rmd_files/figure-html/pressure-1.png" width="700"></p>
-<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
-</div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
-    </nav></aside>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## </span>
+<span class="co">## Attaching package: 'dplyr'</span></code></pre>
+<pre><code><span class="co">## The following objects are masked from 'package:stats':</span>
+<span class="co">## </span>
+<span class="co">##     filter, lag</span></code></pre>
+<pre><code><span class="co">## The following objects are masked from 'package:base':</span>
+<span class="co">## </span>
+<span class="co">##     intersect, setdiff, setequal, union</span></code></pre>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sim_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tibble/man/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>
+  subjects <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>,each<span class="op">=</span><span class="fl">5</span><span class="op">)</span>,
+  IV <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Down1"</span>,<span class="st">"Down2"</span>, <span class="st">"Control"</span>,<span class="st">"Up1"</span>,<span class="st">"Up2"</span><span class="op">)</span>,<span class="fl">6</span><span class="op">)</span>,
+  DV <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">6</span><span class="op">*</span><span class="fl">5</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>,<span class="op">-</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,<span class="fl">1</span><span class="op">)</span>
+<span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>DV <span class="op">=</span> <span class="va">DV</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, each<span class="op">=</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">sim_data</span><span class="op">$</span><span class="va">IV</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">sim_data</span><span class="op">$</span><span class="va">IV</span>, levels <span class="op">=</span> 
+<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Down1"</span>,<span class="st">"Down2"</span>, <span class="st">"Control"</span>,<span class="st">"Up1"</span>,<span class="st">"Up2"</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">sim_data</span><span class="op">$</span><span class="va">subjects</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">sim_data</span><span class="op">$</span><span class="va">subjects</span><span class="op">)</span> </code></pre></div>
+<pre><code><span class="co">## Warning in Ops.factor(sim_data$subjects, as.factor(sim_data$subjects)): '&lt;' not</span>
+<span class="co">## meaningful for factors</span></code></pre>
+<pre><code><span class="co">##  [1] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA</span>
+<span class="co">## [26] NA NA NA NA NA</span></code></pre>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">sim_data</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">IV</span>, y<span class="op">=</span><span class="va">DV</span>, group<span class="op">=</span><span class="va">subjects</span>,
+                     color<span class="op">=</span><span class="va">subjects</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="Lab%209.%20Rmd_files/figure-html/unnamed-chunk-1-1.png" width="700"></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">6</span><span class="op">*</span><span class="fl">5</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>,<span class="op">-</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,<span class="fl">1</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##  [1] -3.29570687 -0.40183654 -0.80955545  1.11434864  2.36055569 -2.89713409</span>
+<span class="co">##  [7] -1.55914618  0.37612897  1.68799545  4.04031501 -1.10430686 -2.06956434</span>
+<span class="co">## [13] -0.59548724  0.01026247  0.69721798 -1.82626769 -0.65965768  0.90850701</span>
+<span class="co">## [19]  1.74846714  2.38990854 -1.72039557 -0.70756970 -0.36478546 -1.29729057</span>
+<span class="co">## [25]  0.87600408 -3.15571342 -1.10222435 -1.74543124  1.10201056  2.98675796</span></code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Run a simulation to determine the proportion of experiments that would return a significant result for the above design. Assume that the effect of the levels of the IV are increments of .1 of a standard deviation, rather than increments of 1 as in the above design.</li>
+</ol>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">save_p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span> <span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">)</span> <span class="op">{</span>
+  
+<span class="va">sim_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tibble/man/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>
+  subjects <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>,each<span class="op">=</span><span class="fl">5</span><span class="op">)</span>,
+  IV <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Down1"</span>,<span class="st">"Down2"</span>, <span class="st">"Control"</span>,<span class="st">"Up1"</span>,<span class="st">"Up2"</span><span class="op">)</span>,<span class="fl">6</span><span class="op">)</span>,
+  DV <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">6</span><span class="op">*</span><span class="fl">5</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">.2</span>,<span class="op">-</span><span class="fl">.1</span>,<span class="fl">0</span>,<span class="fl">.1</span>,<span class="fl">.2</span><span class="op">)</span>,<span class="fl">1</span><span class="op">)</span>
+<span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>DV <span class="op">=</span> <span class="va">DV</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, each<span class="op">=</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span>
+
+  <span class="va">sim_data</span><span class="op">$</span><span class="va">IV</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">sim_data</span><span class="op">$</span><span class="va">IV</span>, levels <span class="op">=</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Down1"</span>,<span class="st">"Down2"</span>, <span class="st">"Control"</span>,<span class="st">"Up1"</span>,<span class="st">"Up2"</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">sim_data</span><span class="op">$</span><span class="va">subjects</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">sim_data</span><span class="op">$</span><span class="va">subjects</span><span class="op">)</span>
+
+<span class="va">aov_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/aov.html" class="external-link">aov</a></span><span class="op">(</span><span class="va">DV</span> <span class="op">~</span> <span class="va">IV</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/aov.html" class="external-link">Error</a></span><span class="op">(</span><span class="va">subjects</span><span class="op">)</span>, <span class="va">sim_data</span><span class="op">)</span><span class="op">)</span>
+<span class="va">save_p</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">aov_out</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">`Error:Within`</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">`Pr(&gt;F)`</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
+<span class="op">}</span>  
+
+<span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span> <span class="op">(</span><span class="va">save_p</span><span class="op">[</span><span class="va">save_p</span> <span class="op">&lt;</span> <span class="fl">.05</span><span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="fl">1000</span></code></pre></div>
+<pre><code><span class="co">## [1] 0</span></code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Demonstrate that the Godden and Baddeley example data from the textbook (19.5), which used a 2x2 repeated measures design, can be be analyzed with one-sample t-tests to return the same results. Specifically, show the one-sample t-tests for each main effect and the interaction. (2 points)</li>
+</ol>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">godden_baddeley</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tibble/man/tribble.html" class="external-link">tribble</a></span><span class="op">(</span><span class="op">~</span><span class="va">Subjects</span>,<span class="op">~</span><span class="va">LearningPlace</span>,<span class="op">~</span><span class="va">TestingPlace</span>,<span class="op">~</span><span class="va">Recall</span>,
+        <span class="st">"s1"</span>,<span class="st">"On Land"</span>,<span class="st">"On Land"</span>,<span class="fl">34</span>,
+        <span class="st">"s2"</span>,<span class="st">"On Land"</span>,<span class="st">"On Land"</span>,<span class="fl">37</span>,
+        <span class="st">"s3"</span>,<span class="st">"On Land"</span>,<span class="st">"On Land"</span>,<span class="fl">27</span>,
+        <span class="st">"s4"</span>,<span class="st">"On Land"</span>,<span class="st">"On Land"</span>,<span class="fl">43</span>,
+        <span class="st">"s5"</span>,<span class="st">"On Land"</span>,<span class="st">"On Land"</span>,<span class="fl">44</span>,
+        <span class="st">"s1"</span>,<span class="st">"On Land"</span>,<span class="st">"Under Sea"</span>,<span class="fl">18</span>,
+        <span class="st">"s2"</span>,<span class="st">"On Land"</span>,<span class="st">"Under Sea"</span>,<span class="fl">21</span>,
+        <span class="st">"s3"</span>,<span class="st">"On Land"</span>,<span class="st">"Under Sea"</span>,<span class="fl">25</span>,
+        <span class="st">"s4"</span>,<span class="st">"On Land"</span>,<span class="st">"Under Sea"</span>,<span class="fl">37</span>,
+        <span class="st">"s5"</span>,<span class="st">"On Land"</span>,<span class="st">"Under Sea"</span>,<span class="fl">34</span>,
+        <span class="st">"s1"</span>,<span class="st">"Under Sea"</span>,<span class="st">"On Land"</span>,<span class="fl">14</span>,
+        <span class="st">"s2"</span>,<span class="st">"Under Sea"</span>,<span class="st">"On Land"</span>,<span class="fl">21</span>,
+        <span class="st">"s3"</span>,<span class="st">"Under Sea"</span>,<span class="st">"On Land"</span>,<span class="fl">31</span>,
+        <span class="st">"s4"</span>,<span class="st">"Under Sea"</span>,<span class="st">"On Land"</span>,<span class="fl">27</span>,
+        <span class="st">"s5"</span>,<span class="st">"Under Sea"</span>,<span class="st">"On Land"</span>,<span class="fl">32</span>,
+        <span class="st">"s1"</span>,<span class="st">"Under Sea"</span>,<span class="st">"Under Sea"</span>,<span class="fl">22</span>,
+        <span class="st">"s2"</span>,<span class="st">"Under Sea"</span>,<span class="st">"Under Sea"</span>,<span class="fl">25</span>,
+        <span class="st">"s3"</span>,<span class="st">"Under Sea"</span>,<span class="st">"Under Sea"</span>,<span class="fl">33</span>,
+        <span class="st">"s4"</span>,<span class="st">"Under Sea"</span>,<span class="st">"Under Sea"</span>,<span class="fl">33</span>,
+        <span class="st">"s5"</span>,<span class="st">"Under Sea"</span>,<span class="st">"Under Sea"</span>,<span class="fl">42</span>
+        <span class="op">)</span>
+
+<span class="co"># convert IVs to factors</span>
+<span class="va">godden_baddeley</span> <span class="op">&lt;-</span> <span class="va">godden_baddeley</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Subjects <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">Subjects</span><span class="op">)</span>,
+         LearningPlace <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">LearningPlace</span><span class="op">)</span>,
+         TestingPlace <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">TestingPlace</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># run ANOVA</span>
+<span class="va">aov_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/aov.html" class="external-link">aov</a></span><span class="op">(</span><span class="va">Recall</span> <span class="op">~</span> <span class="va">LearningPlace</span><span class="op">*</span><span class="va">TestingPlace</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/aov.html" class="external-link">Error</a></span><span class="op">(</span><span class="va">Subjects</span><span class="op">/</span><span class="op">(</span><span class="va">LearningPlace</span><span class="op">*</span><span class="va">TestingPlace</span><span class="op">)</span><span class="op">)</span>, <span class="va">godden_baddeley</span><span class="op">)</span>
+
+<span class="co"># print out ANOVA summary table</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">aov_out</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## </span>
+<span class="co">## Error: Subjects</span>
+<span class="co">##           Df Sum Sq Mean Sq F value Pr(&gt;F)</span>
+<span class="co">## Residuals  4    680     170               </span>
+<span class="co">## </span>
+<span class="co">## Error: Subjects:LearningPlace</span>
+<span class="co">##               Df Sum Sq Mean Sq F value Pr(&gt;F)</span>
+<span class="co">## LearningPlace  1     80      80       2   0.23</span>
+<span class="co">## Residuals      4    160      40               </span>
+<span class="co">## </span>
+<span class="co">## Error: Subjects:TestingPlace</span>
+<span class="co">##              Df Sum Sq Mean Sq F value Pr(&gt;F)</span>
+<span class="co">## TestingPlace  1     20      20     2.5  0.189</span>
+<span class="co">## Residuals     4     32       8               </span>
+<span class="co">## </span>
+<span class="co">## Error: Subjects:LearningPlace:TestingPlace</span>
+<span class="co">##                            Df Sum Sq Mean Sq F value Pr(&gt;F)  </span>
+<span class="co">## LearningPlace:TestingPlace  1    320     320      20 0.0111 *</span>
+<span class="co">## Residuals                   4     64      16                 </span>
+<span class="co">## ---</span>
+<span class="co">## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></code></pre>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#&gt; </span>
+<span class="co">#&gt; Error: Subjects</span>
+<span class="co">#&gt;           Df Sum Sq Mean Sq F value Pr(&gt;F)</span>
+<span class="co">#&gt; Residuals  4    680     170               </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Error: Subjects:LearningPlace</span>
+<span class="co">#&gt;               Df Sum Sq Mean Sq F value Pr(&gt;F)</span>
+<span class="co">#&gt; LearningPlace  1     80      80       2   0.23</span>
+<span class="co">#&gt; Residuals      4    160      40               </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Error: Subjects:TestingPlace</span>
+<span class="co">#&gt;              Df Sum Sq Mean Sq F value Pr(&gt;F)</span>
+<span class="co">#&gt; TestingPlace  1     20      20     2.5  0.189</span>
+<span class="co">#&gt; Residuals     4     32       8               </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Error: Subjects:LearningPlace:TestingPlace</span>
+<span class="co">#&gt;                            Df Sum Sq Mean Sq F value Pr(&gt;F)  </span>
+<span class="co">#&gt; LearningPlace:TestingPlace  1    320     320      20 0.0111 *</span>
+<span class="co">#&gt; Residuals                   4     64      16                 </span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
+
+<span class="co"># generate plot of means</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">godden_baddeley</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">TestingPlace</span>,
+                            y<span class="op">=</span><span class="va">Recall</span>,
+                            shape<span class="op">=</span><span class="va">LearningPlace</span>,
+                            group<span class="op">=</span><span class="va">LearningPlace</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>stat<span class="op">=</span><span class="st">"summary"</span>,fun<span class="op">=</span><span class="st">"mean"</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>stat<span class="op">=</span><span class="st">"summary"</span>,fun<span class="op">=</span><span class="st">"mean"</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span>base_size<span class="op">=</span><span class="fl">12</span><span class="op">)</span></code></pre></div>
+<p><img src="Lab%209.%20Rmd_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#### one-sample t test</span>
+
+<span class="co"># main effect of learning place</span>
+
+<span class="va">testing_place_means</span> <span class="op">&lt;-</span> <span class="va">godden_baddeley</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Subjects</span>,<span class="va">TestingPlace</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>mean_recall <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">Recall</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## `summarise()` has grouped output by 'Subjects'. You can override using the `.groups` argument.</span></code></pre>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">t.test</a></span><span class="op">(</span><span class="va">mean_recall</span> <span class="op">~</span> <span class="va">TestingPlace</span>, paired<span class="op">=</span><span class="cn">TRUE</span>, data<span class="op">=</span><span class="va">testing_place_means</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## </span>
+<span class="co">##  Paired t-test</span>
+<span class="co">## </span>
+<span class="co">## data:  mean_recall by TestingPlace</span>
+<span class="co">## t = 1.5811, df = 4, p-value = 0.189</span>
+<span class="co">## alternative hypothesis: true difference in means is not equal to 0</span>
+<span class="co">## 95 percent confidence interval:</span>
+<span class="co">##  -1.511956  5.511956</span>
+<span class="co">## sample estimates:</span>
+<span class="co">## mean of the differences </span>
+<span class="co">##                       2</span></code></pre>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># interaction</span>
+
+ <span class="va">LL</span> <span class="op">&lt;-</span> <span class="va">godden_baddeley</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">LearningPlace</span> <span class="op">==</span> <span class="st">"On Land"</span>,
+         <span class="va">TestingPlace</span> <span class="op">==</span> <span class="st">"On Land"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">Recall</span><span class="op">)</span>
+  
+  
+ <span class="va">LS</span> <span class="op">&lt;-</span> <span class="va">godden_baddeley</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">LearningPlace</span> <span class="op">==</span> <span class="st">"On Land"</span>,
+         <span class="va">TestingPlace</span> <span class="op">==</span> <span class="st">"Under Sea"</span><span class="op">)</span><span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span>
+   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">Recall</span><span class="op">)</span>
+  
+  
+ <span class="va">LL</span> <span class="op">-</span> <span class="va">LS</span></code></pre></div>
+<pre><code><span class="co">## [1] 16 16  2  6 10</span></code></pre>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"> <span class="va">SL</span> <span class="op">&lt;-</span> <span class="va">godden_baddeley</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">LearningPlace</span> <span class="op">==</span> <span class="st">"Under Sea"</span>,
+         <span class="va">TestingPlace</span> <span class="op">==</span> <span class="st">"On Land"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">Recall</span><span class="op">)</span>
+  
+  
+ <span class="va">SS</span> <span class="op">&lt;-</span> <span class="va">godden_baddeley</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">LearningPlace</span> <span class="op">==</span> <span class="st">"Under Sea"</span>,
+         <span class="va">TestingPlace</span> <span class="op">==</span> <span class="st">"Under Sea"</span><span class="op">)</span><span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html" class="external-link">%&gt;%</a></span>
+   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">Recall</span><span class="op">)</span>
+  
+ <span class="va">SL</span> <span class="op">-</span> <span class="va">SS</span></code></pre></div>
+<pre><code><span class="co">## [1]  -8  -4  -2  -6 -10</span></code></pre>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">t.test</a></span><span class="op">(</span><span class="op">(</span><span class="va">LL</span> <span class="op">-</span> <span class="va">LS</span><span class="op">)</span> <span class="op">-</span> <span class="op">(</span><span class="va">SL</span> <span class="op">-</span> <span class="va">SS</span><span class="op">)</span>, mu<span class="op">=</span><span class="fl">0</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## </span>
+<span class="co">##  One Sample t-test</span>
+<span class="co">## </span>
+<span class="co">## data:  (LL - LS) - (SL - SS)</span>
+<span class="co">## t = 4.4721, df = 4, p-value = 0.01106</span>
+<span class="co">## alternative hypothesis: true mean is not equal to 0</span>
+<span class="co">## 95 percent confidence interval:</span>
+<span class="co">##   6.066688 25.933312</span>
+<span class="co">## sample estimates:</span>
+<span class="co">## mean of x </span>
+<span class="co">##        16</span></code></pre>
+  </main>
 </div>
 
 
