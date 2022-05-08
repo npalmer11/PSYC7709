@@ -19,7 +19,7 @@ C. There are 6 subjects in the experiment, and they are each measured once in ea
 
 
 ```{r}
-
+library(ggplot2)
 library(tibble)
 library(dplyr)
 
@@ -57,26 +57,26 @@ rnorm(6*5,c(-2,-1,0,1,2),1)
 ```{r}
 
 save_p <- c()
-for( i in 1:100){
-
+for ( i in 1:1000) {
+  
 sim_data <- tibble(
   subjects = rep(1:6,each=5),
   IV = rep(c("Down1","Down2", "Control","Up1","Up2"),6),
-  DV = rnorm(6*5,c(-2,-1,0,1,2),1)
+  DV = rnorm(6*5,c(-.2,-.1,0,.1,.2),1)
 ) %>%
   mutate(DV = DV+rep(rnorm(6,0,1), each=5))
 
-sim_data$IV <-factor(sim_data$IV, levels = 
-c("Down1","Down2", "Control","Up1","Up2"))
+  sim_data$IV <- factor(sim_data$IV, levels =
+  c("Down1","Down2", "Control","Up1","Up2"))
 
-sim_data$subjects < as.factor(sim_data$subjects) 
+sim_data$subjects <- as.factor(sim_data$subjects)
 
 aov_out <- summary(aov(DV ~ IV + Error(subjects), sim_data))
-save_p[i] <- aov_out[2]$`Error: Within`[[1]]$`Pr(>F)`[1]
-}
+save_p[i] <- aov_out[[2]]$`Error:Within`[[1]]$`Pr(>F)`[1]
+}  
 
-length(save_p[save_p < .05])/1000
-
+length (save_p[save_p < .05])/1000
+                  
 ```
 
 3. Demonstrate that the Godden and Baddeley example data from the textbook (19.5), which used a 2x2 repeated measures design, can be be analyzed with one-sample t-tests to return the same results. Specifically, show the one-sample t-tests for each main effect and the interaction. (2 points)
@@ -155,22 +155,46 @@ ggplot(godden_baddeley, aes(x=TestingPlace,
 
 # main effect of learning place
 
-learning_place_means <- godden_baddeley %>%
-  group_by(Subjects,LearningPlace) %>%
+testing_place_means <- godden_baddeley %>%
+  group_by(Subjects,TestingPlace) %>%
   summarize(mean_recall = mean(Recall))
 
-t.test(mean_recall ~ LearningPlace, paired=TRUE, data=learning_place_means)
-
-Learning_land <- learning_place_means %>% 
-  filter(LearningPlace == "On Land") %>%
-  select(mean_recall)
-
-Learning_sea <- learning_place_means %>% 
-  filter(LearningPlace == "Under Sea") %>%
-  select(mean_recall)
-
-t.test(Learning_land$mean_recall - Learning_sea$mean_recall, mu=0)
+t.test(mean_recall ~ TestingPlace, paired=TRUE, data=testing_place_means)
 
 
+
+# interaction
+
+ LL <- godden_baddeley %>%
+  filter(LearningPlace == "On Land",
+         TestingPlace == "On Land") %>%
+    pull(Recall)
+  
+  
+ LS <- godden_baddeley %>%
+  filter(LearningPlace == "On Land",
+         TestingPlace == "Under Sea")%>%
+   pull(Recall)
+  
+  
+ LL - LS
+  
+  
+ SL <- godden_baddeley %>%
+  filter(LearningPlace == "Under Sea",
+         TestingPlace == "On Land") %>%
+    pull(Recall)
+  
+  
+ SS <- godden_baddeley %>%
+  filter(LearningPlace == "Under Sea",
+         TestingPlace == "Under Sea")%>%
+   pull(Recall)
+  
+ SL - SS
+
+t.test((LL - LS) - (SL - SS), mu=0)
+
+  
 ```
 
