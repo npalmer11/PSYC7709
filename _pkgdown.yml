@@ -19,7 +19,7 @@ navbar:
       text: Rbasics
       menu:
       - text: Rbasics
-        href: articles/Rbasics.html
+        href: articles/Rbasics/Rbasics.html
     slides:
       text: slides
       menu:

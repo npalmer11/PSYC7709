@@ -1,5 +1,5 @@
 ---
-title: "R.basics"
+title: "Rbasics"
 author: "Natalie Palmer"
 date: "5/16/2022"
 output: html_document
@@ -15,3 +15,10 @@ Sum
 sum(1:100)
 ```
 
+Creates a variable a
+
+```{r}
+
+```
+
+a <- 1:5
