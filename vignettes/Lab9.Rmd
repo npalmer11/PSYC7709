@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 1. Create an R script that can generate simulated data for the following repeated 
-measures design. (2 points)
+measures design.
 
 A. The dependent variable is assumed to come from a normal distribution with mean = 0 and standard deviation = 1.
 
@@ -43,8 +43,6 @@ ggplot(sim_data, aes(x=IV, y=DV, group=subjects,
   geom_line()
 
 rnorm(6*5,c(-2,-1,0,1,2),1)
-
-
 
 
 
