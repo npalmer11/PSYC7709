@@ -9,16 +9,45 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Sum
+Loops (ways to automate repetition)
 
 ```{r}
-sum(1:100)
+# Make a loop do something 3 times
+# 1:3 creates a vector with 3 numbers in it, 9,10,11
+# the loop will run 3 times, because there are three things to assign to i
+for(i in 1:3){
+  print("orchid")
+}
+
+# show the value of i each step of the loop
+for(i in 1:3){
+  print(i)
+}
+
+# index does not have to be numbers
+flowers <- c("daisy","bluebell","petunia","lilly")
+for(i in flowers){
+  print(i)
+}
+
 ```
 
-Creates a variable a
+Creates a sequence of numbers -> 1:5 &  #seq(from, to)
 
 ```{r}
-
+1:5
+seq(from = 1, to = 5)
 ```
 
-a <- 1:5
+Example of a sum function
+
+```{r}
+my_sum <- function(x) {
+  sum <- 0
+  for(i in x) sum <- sum + i
+  return(sum)
+}
+
+my_sum(1:666)
+
+```
