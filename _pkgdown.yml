@@ -19,7 +19,7 @@ navbar:
       text: Rbasics
       menu:
       - text: Rbasics
-        href: vignettes/PkgdownTips/Rbasics.html
+        href: Tips/Rbasics.html
     slides:
       text: slides
       menu:
