@@ -31,11 +31,17 @@ for(i in flowers){
 
 ```
 
-Creates a sequence of numbers -> 1:5 &  #seq(from, to)
+# example of a function 
 
 ```{r}
-1:5
-seq(from = 1, to = 5)
+
+pow <- function(x,y) {
+  # function to print x raised to the power y
+  result <- x^y
+  print(paste(x,"raised to the power", y, "is", result))
+}
+
+
 ```
 
 Example of a sum function
@@ -51,4 +57,11 @@ my_sum(1:666)
 
 #
 
+```
+
+Creates a sequence of numbers -> 1:5 &  #seq(from, to)
+
+```{r}
+1:5
+seq(from = 1, to = 5)
 ```
