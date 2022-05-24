@@ -1,7 +1,7 @@
 ---
-title: "Rbasics"
+title: "RBasics"
 author: "Natalie Palmer"
-date: "5/16/2022"
+date: "5/24/2022"
 output: html_document
 ---
 
@@ -49,5 +49,7 @@ my_sum <- function(x) {
 }
 
 my_sum(1:666)
+
+#
 
 ```
