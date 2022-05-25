@@ -41,6 +41,7 @@ pow <- function(x,y) {
   print(paste(x,"raised to the power", y, "is", result))
 }
 
+pow(11,11)
 
 ```
 
